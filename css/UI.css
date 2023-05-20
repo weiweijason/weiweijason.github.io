@@ -3,6 +3,16 @@ body {
     padding: 50px;
     margin-top: 50px;
 }
+.flex{
+    display:flex;
+    width:600px;
+    height:600px;
+    background-color:#eee;
+  }
+  
+  .flex div{
+    margin:auto;
+  }
 
 img {
     height: 250px;
