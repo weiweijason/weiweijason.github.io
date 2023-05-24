@@ -8,7 +8,7 @@ $(document).ready(function () {
 
         $('.js-img-shake').show();
         $('.js-img-ok').hide();
-        $('.js-result').text('等待開將結果...');
+        $('.js-result').text('等待結果...');
         // if(rand>0){
         //     document.write("qqq");
         // }
