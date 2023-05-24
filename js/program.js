@@ -45,6 +45,6 @@ $(document).ready(function () {
                 location.href='19.html';
             }
             // $('.js-result').text('開獎結果：' + options[rand]);
-        }, 1500);
+        }, 2000);
     });
 });
