@@ -16,7 +16,7 @@ body {
     align-items:center;
     justify-content:center;
     width:800px;
-    height:1000px;
+    height:1050px;
     background-color:#fff;
 }
 .flex2{
@@ -29,7 +29,7 @@ body {
 }
 
 img {
-    height: 950px;
+    height: 1000px;
 }
 
 textarea {
