@@ -24,25 +24,25 @@ $(document).ready(function () {
             parseInt(rand);
             // rand=1;
             if(rand == 1){
-                location.href='luckey_draw/01.html';
+                location.href='monkey.html';
             }else if(rand == 2){
-                location.href='luckey_draw/03.html';
+                location.href='03.html';
             }else if(rand == 3){
-                location.href='luckey_draw/05.html';
+                location.href='05.html';
             }else if(rand == 4){
-                location.href='luckey_draw/07.html';
+                location.href='07.html';
             }else if(rand == 5){
-                location.href='luckey_draw/09.html';
+                location.href='09.html';
             }else if(rand == 6){
-                location.href='luckey_draw/11.html';
+                location.href='11.html';
             }else if(rand == 7){
-                location.href='luckey_draw/13.html';
+                location.href='13.html';
             }else if(rand == 8){
-                location.href='luckey_draw/15.html';
+                location.href='15.html';
             }else if(rand == 9){
-                location.href='luckey_draw/17.html';
+                location.href='17.html';
             }else{
-                location.href='luckey_draw/19.html';
+                location.href='19.html';
             }
             // $('.js-result').text('開獎結果：' + options[rand]);
         }, 2000);
