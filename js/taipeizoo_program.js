@@ -20,29 +20,25 @@ $(document).ready(function () {
             //     // $('.js-result').text('qqq');
             // }
             // location.href='01.html'
-            rand=(rand%10);
+            rand=(rand%8);
             parseInt(rand);
             // rand=1;
             if(rand == 1){
-                location.href='monkey.html';
+                location.href='../taipeizoo_draw/monkey.html';
             }else if(rand == 2){
-                location.href='03.html';
+                location.href='../taipeizoo_draw/bat.html';
             }else if(rand == 3){
-                location.href='05.html';
+                location.href='../taipeizoo_draw/bear.html';
             }else if(rand == 4){
-                location.href='07.html';
+                location.href='../taipeizoo_draw/eagle.html';
             }else if(rand == 5){
-                location.href='09.html';
+                location.href='../taipeizoo_draw/goria.html';
             }else if(rand == 6){
-                location.href='11.html';
+                location.href='../taipeizoo_draw/ma.html';
             }else if(rand == 7){
-                location.href='13.html';
-            }else if(rand == 8){
-                location.href='15.html';
-            }else if(rand == 9){
-                location.href='17.html';
+                location.href='../taipeizoo_draw/snake.html';
             }else{
-                location.href='19.html';
+                location.href='../taipeizoo_draw/spider.html';
             }
             // $('.js-result').text('開獎結果：' + options[rand]);
         }, 2000);

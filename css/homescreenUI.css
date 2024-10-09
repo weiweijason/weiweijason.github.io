@@ -1,23 +1,28 @@
 body {
-    text-align: center;
-    padding: 50px;
-    margin-top: 50px;
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
     color: #333;
+    text-align: center;
+    margin: 0;
+    padding: 0;
 }
 
 header {
-    margin-bottom: 20px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px 0;
 }
 
-.image-container {
+h1 {
+    margin: 0;
+}
+
+main {
+    padding: 20px;
+}
+
+section {
     margin: 20px 0;
-}
-
-img {
-    max-width: 100%;
-    height: auto;
 }
 
 button {
@@ -25,16 +30,12 @@ button {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    background-color: #ff0000;
+    background-color: #4CAF50;
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #cc0000;
-}
-
-button:active {
-    background-color: #ff0000;
+    background-color: #45a049;
 }

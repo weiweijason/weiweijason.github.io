@@ -13,7 +13,7 @@ $(document).ready(function () {
         //     document.write("qqq");
         // }
         setTimeout(function () {
-            location.href='luckeydraw_index.html';
+            location.href='html/luckeydraw_index.html';
             
             // $('.js-result').text('開獎結果：' + options[rand]);
         }, 10);
@@ -30,7 +30,7 @@ $(document).ready(function () {
         //     document.write("qqq");
         // }
         setTimeout(function () {
-            location.href='taipeizoo_index.html';
+            location.href='html/taipeizoo_index.html';
             
             // $('.js-result').text('開獎結果：' + options[rand]);
         }, 10);
