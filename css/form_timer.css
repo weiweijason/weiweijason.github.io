@@ -54,3 +54,25 @@ main {
     justify-content: center;
     margin-top: 20px;
 }
+
+.start-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#start-button {
+    font-size: 24px;
+    padding: 20px 40px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#start-button:hover {
+    background-color: #45a049;
+}

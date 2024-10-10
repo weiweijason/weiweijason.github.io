@@ -1,7 +1,7 @@
 let timeLeft = 45 * 60; // 45 分鐘轉換為秒
 let overtime = 0; // 超時秒數
 let isOvertime = false;
-let isPaused = false;
+let isPaused = true; // 預設為暫停模式
 let interval;
 
 function startTimer() {
@@ -35,6 +35,16 @@ function togglePause() {
         googleForm.style.display = 'block';
         pauseButton.textContent = '暫停';
     }
+}
+
+function startGame() {
+    const startContainer = document.getElementById('start-container');
+    const formContainer = document.getElementById('form-container');
+    const pauseButton = document.getElementById('pause-button');
+    startContainer.style.display = 'none';
+    formContainer.style.display = 'flex';
+    pauseButton.style.display = 'inline-block';
+    isPaused = false;
 }
 
 window.onload = startTimer;
