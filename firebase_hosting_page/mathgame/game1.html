@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+    <meta charset="utf-8">
+    <title>遊戲 1 - 99 乘法表</title>
+    <link rel="stylesheet" href="../css/game1.css" />
+</head>
+<body>
+    <header>
+        <h1>99 乘法表挑戰</h1>
+        <div id="timer">時間剩餘: 60 秒</div>
+    </header>
+    <main>
+        <div id="question-container">
+            <div id="question"></div>
+            <input type="number" id="answer" onkeydown="if(event.key === 'Enter') submitAnswer()" />
+            <button onclick="submitAnswer()">提交答案</button>
+        </div>
+        <div id="score">得分: 0 / 38</div>
+        <button id="pause-button" onclick="togglePause()">暫停</button>
+    </main>
+    <script src="../js/game1.js"></script>
+</body>
+</html>

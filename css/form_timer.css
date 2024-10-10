@@ -1,0 +1,56 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1 {
+    margin: 0;
+}
+
+#timer {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+#pause-button {
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ff0000;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#pause-button:hover {
+    background-color: #cc0000;
+}
+
+main {
+    padding: 80px 20px 20px; /* 增加上方填充以避免被固定標題遮擋 */
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}

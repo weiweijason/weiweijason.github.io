@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+    <meta charset="utf-8">
+    <title>登入</title>
+    <link rel="stylesheet" href="../css/login.css" />
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script src="../js/firebase_config.js"></script>
+    <script src="../js/login.js"></script>
+</head>
+<body>
+    <header>
+        <h1>登入</h1>
+    </header>
+    <main>
+        <div class="login-container">
+            <input type="email" id="email" placeholder="電子郵件" />
+            <input type="password" id="password" placeholder="密碼" />
+            <button onclick="login()">登入</button>
+            <button onclick="signup()">註冊</button>
+        </div>
+    </main>
+</body>
+</html>
