@@ -27,12 +27,15 @@ function startTimer() {
 function togglePause() {
     const pauseButton = document.getElementById('pause-button');
     const googleForm = document.getElementById('google-form');
+    const overlay = document.getElementById('overlay');
     isPaused = !isPaused;
     if (isPaused) {
         googleForm.style.display = 'none';
+        overlay.style.display = 'flex';
         pauseButton.textContent = '繼續';
     } else {
         googleForm.style.display = 'block';
+        overlay.style.display = 'none';
         pauseButton.textContent = '暫停';
     }
 }
@@ -41,9 +44,11 @@ function startGame() {
     const startContainer = document.getElementById('start-container');
     const formContainer = document.getElementById('form-container');
     const pauseButton = document.getElementById('pause-button');
+    const overlay = document.getElementById('overlay');
     startContainer.style.display = 'none';
     formContainer.style.display = 'flex';
     pauseButton.style.display = 'inline-block';
+    overlay.style.display = 'none';
     isPaused = false;
 }
 
