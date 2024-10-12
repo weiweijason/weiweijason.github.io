@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+    <meta charset="utf-8">
+    <title>小四期中測驗複習</title>
+    <link rel="stylesheet" href="../css/form_timer.css" />
+</head>
+<body>
+    <header>
+        <h1>小四期中測驗複習</h1>
+        <div id="timer">時間剩餘: 45:00</div>
+        <button id="pause-button" onclick="togglePause()" style="display: none;">暫停</button>
+    </header>
+    <main>
+        <div class="form-container" id="form-container" style="display: none;">
+            <!-- 嵌入 Google 表單 -->
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSc3gRHFw16FD6JCMDV1PIDZkGXwNbfB4E9gqDRz-kkOKRlVzA/viewform?embedded=true" width="640" height="10226" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+        </div>
+        <div class="start-container" id="start-container">
+            <button id="start-button" onclick="startGame()">開始</button>
+        </div>
+    </main>
+    <script src="../js/form_timer.js"></script>
+    
+</body>
+</html>
