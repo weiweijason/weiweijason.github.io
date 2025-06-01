@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💕 AI 女友聊天機器人專案簡報</title>
+    
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/theme/white.css">
+    
+    <!-- Code highlighting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/plugin/highlight/monokai.css">
+    
+    <!-- Custom styles -->
+    <style>
+        .reveal {
+            font-family: "Source Sans Pro", Helvetica, sans-serif;
+        }
+        
+        .reveal h1, .reveal h2, .reveal h3 {
+            color: #e91e63;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .reveal .slides section {
+            text-align: left;
+        }
+        
+        .reveal .title-slide {
+            text-align: center;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+        }
+        
+        .reveal .title-slide h1 {
+            color: white;
+            font-size: 3em;
+            margin-bottom: 0.5em;
+        }
+        
+        .reveal .section-title {
+            background: linear-gradient(45deg, #f06292, #e91e63);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .reveal .highlight-box {
+            background: #f8f9fa;
+            border-left: 5px solid #e91e63;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+        
+        .reveal .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .reveal .tech-card {
+            background: white;
+            border: 2px solid #e91e63;
+            border-radius: 10px;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .reveal .personality-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .reveal .personality-card {
+            background: linear-gradient(135deg, #ffb3d9, #ff80cc);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .reveal .architecture-diagram {
+            text-align: center;
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            font-family: monospace;
+        }
+        
+        .reveal .demo-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        .reveal .demo-table th,
+        .reveal .demo-table td {
+            border: 1px solid #ddd;
+            padding: 0.5rem;
+            text-align: left;
+        }
+        
+        .reveal .demo-table th {
+            background: #e91e63;
+            color: white;
+        }
+        
+        .reveal .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .reveal .feature-list li {
+            background: #f8f9fa;
+            margin: 0.5rem 0;
+            padding: 0.5rem 1rem;
+            border-left: 4px solid #e91e63;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .reveal .feature-list li:before {
+            content: "✅ ";
+            color: #4caf50;
+            font-weight: bold;
+        }
+        
+        .reveal .navigation-hint {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(233, 30, 99, 0.9);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            z-index: 1000;
+        }
+        
+        .reveal .slide-number {
+            color: #e91e63 !important;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .reveal .title-slide h1 {
+                font-size: 2em;
+            }
+            
+            .reveal .tech-grid,
+            .reveal .personality-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- 標題頁面 -->
+            <section class="title-slide">
+                <h1>💕 AI 女友聊天機器人</h1>
+                <h2>專案簡報</h2>
+                <p style="font-size: 1.2em; margin-top: 2rem;">
+                    具備情緒分析、多重性格、跨平台部署的智能 AI 聊天系統
+                </p>
+                <p style="font-size: 0.9em; margin-top: 2rem; opacity: 0.8;">
+                    使用 ← → 鍵或滑鼠滾輪導航
+                </p>
+            </section>
+
+            <!-- 專案概述 -->
+            <section>
+                <section class="section-title">
+                    <h2>📋 專案概述</h2>
+                </section>
+                
+                <section>
+                    <h3>專案目標</h3>
+                    <div class="highlight-box">
+                        <p>打造一個具備<strong>情緒分析</strong>、<strong>多重性格</strong>、<strong>跨平台部署</strong>的智能 AI 女友聊天系統</p>
+                    </div>
+                    
+                    <h3>開發平台</h3>
+                    <ul style="font-size: 1.1em;">
+                        <li><strong>主要介面</strong>: Gradio Web UI</li>
+                        <li><strong>擴展平台</strong>: LINE Bot</li>
+                        <li><strong>技術架構</strong>: Python + OpenAI API + SQLite</li>
+                    </ul>
+                </section>
+            </section>
+
+            <!-- 核心技術棧 -->
+            <section>
+                <section class="section-title">
+                    <h2>🛠️ 核心技術棧</h2>
+                </section>
+                
+                <section>
+                    <h3>技術架構總覽</h3>
+                    <div class="tech-grid">
+                        <div class="tech-card">
+                            <h4>🤖 大型語言模型</h4>
+                            <p><strong>OpenAI GPT-3.5/GPT-4</strong></p>
+                            <p>自然語言理解與生成</p>
+                        </div>
+                        <div class="tech-card">
+                            <h4>🎭 Prompt Engineering</h4>
+                            <p><strong>動態角色扮演</strong></p>
+                            <p>多重性格與上下文管理</p>
+                        </div>
+                        <div class="tech-card">
+                            <h4>🧠 Chain-of-Thought</h4>
+                            <p><strong>邏輯推理</strong></p>
+                            <p>情緒分析與策略選擇</p>
+                        </div>
+                        <div class="tech-card">
+                            <h4>💾 資料庫管理</h4>
+                            <p><strong>SQLite</strong></p>
+                            <p>輕量級、零配置</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <section>
+                    <h3>Chain-of-Thought 邏輯流程</h3>
+                    <div class="architecture-diagram">
+                        <p style="font-size: 1.2em; color: #e91e63;">
+                            用戶輸入 → 語意解析 → 情緒判斷 → 策略選擇 → 回應生成
+                        </p>
+                    </div>
+                    <ol style="margin-top: 2rem;">
+                        <li><strong>步驟 1</strong>: 識別關鍵詞和語氣</li>
+                        <li><strong>步驟 2</strong>: 分析整體情緒傾向</li>
+                        <li><strong>步驟 3</strong>: 選擇適合的回應策略</li>
+                        <li><strong>步驟 4</strong>: 生成個人化回應</li>
+                    </ol>
+                </section>
+            </section>
+
+            <!-- AI 功能特色 -->
+            <section>
+                <section class="section-title">
+                    <h2>🎭 AI 功能特色</h2>
+                </section>
+                
+                <section>
+                    <h3>💝 多重性格系統</h3>
+                    <div class="personality-grid">
+                        <div class="personality-card">
+                            <h4>😊 溫柔體貼</h4>
+                            <p>關懷語氣、善於傾聽和安慰</p>
+                        </div>
+                        <div class="personality-card">
+                            <h4>🌟 活潑開朗</h4>
+                            <p>輕鬆幽默、充滿正能量</p>
+                        </div>
+                        <div class="personality-card">
+                            <h4>📚 知性優雅</h4>
+                            <p>深度思考、見地獨特</p>
+                        </div>
+                        <div class="personality-card">
+                            <h4>😈 調皮可愛</h4>
+                            <p>俏皮語氣、偶爾撒嬌</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <section>
+                    <h3>🗣️ 多種對話模式</h3>
+                    <div class="tech-grid">
+                        <div class="tech-card">
+                            <h4>🤗 安慰模式</h4>
+                            <p>情感支持、鼓勵用戶</p>
+                        </div>
+                        <div class="tech-card">
+                            <h4>💬 聊天模式</h4>
+                            <p>日常對話、分享話題</p>
+                        </div>
+                        <div class="tech-card">
+                            <h4>👂 傾聽模式</h4>
+                            <p>專心傾聽、同理心回應</p>
+                        </div>
+                        <div class="tech-card">
+                            <h4>💡 建議模式</h4>
+                            <p>實用建議、問題指導</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <section>
+                    <h3>🎯 智能情緒分析</h3>
+                    <div class="highlight-box">
+                        <ul style="columns: 2; column-gap: 2rem;">
+                            <li><strong>情緒識別</strong>: 快樂、悲傷、憤怒、焦慮等</li>
+                            <li><strong>強度評估</strong>: 輕微、中等、強烈</li>
+                            <li><strong>關鍵詞萃取</strong>: 情緒相關詞彙識別</li>
+                            <li><strong>回應策略</strong>: 基於情緒的客製化回應</li>
+                        </ul>
+                    </div>
+                </section>
+            </section>
+
+            <!-- Gradio 網頁介面 -->
+            <section>
+                <section class="section-title">
+                    <h2>🖥️ Gradio 網頁介面</h2>
+                </section>
+                
+                <section>
+                    <h3>🎨 介面設計特色</h3>
+                    <ul class="feature-list">
+                        <li>響應式設計: 適配各種螢幕尺寸</li>
+                        <li>美觀 UI: 粉色系漸層、圓角設計</li>
+                        <li>自定義頭像: 男用戶 👤 與 AI 女友 💕 專屬圖片</li>
+                        <li>動畫效果: 訊息滑入動畫、陰影效果</li>
+                    </ul>
+                </section>
+                
+                <section>
+                    <h3>🛠️ 功能區域</h3>
+                    <div class="tech-grid">
+                        <div class="tech-card">
+                            <h4>主聊天區</h4>
+                            <ul>
+                                <li>聊天機器人介面</li>
+                                <li>訊息輸入框</li>
+                                <li>發送按鈕</li>
+                            </ul>
+                        </div>
+                        <div class="tech-card">
+                            <h4>控制面板</h4>
+                            <ul>
+                                <li>性格選擇下拉選單</li>
+                                <li>對話模式切換</li>
+                                <li>設定更新按鈕</li>
+                            </ul>
+                        </div>
+                        <div class="tech-card">
+                            <h4>工具區域</h4>
+                            <ul>
+                                <li>獨立情緒分析工具</li>
+                                <li>對話歷史載入</li>
+                                <li>清除對話按鈕</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                
+                <section>
+                    <h3>🔒 會話隔離系統</h3>
+                    <div class="highlight-box">
+                        <ul>
+                            <li><strong>UUID 用戶 ID</strong>: 每個瀏覽器會話獲得唯一標識</li>
+                            <li><strong>隱私保護</strong>: 不同裝置間對話完全隔離</li>
+                            <li><strong>會話管理</strong>: 支援清除重新開始</li>
+                        </ul>
+                    </div>
+                </section>
+            </section>
+
+            <!-- LINE Bot 擴展功能 -->
+            <section>
+                <section class="section-title">
+                    <h2>📱 LINE Bot 擴展功能</h2>
+                </section>
+                
+                <section>
+                    <h3>🤖 LINE Bot 特色</h3>
+                    <ul class="feature-list">
+                        <li>跨平台整合: 無需額外 App 安裝</li>
+                        <li>即時推播: LINE 原生訊息通知</li>
+                        <li>好友互動: 加入好友即可使用</li>
+                        <li>群組支援: 可加入 LINE 群組聊天</li>
+                    </ul>
+                </section>
+                
+                <section>
+                    <h3>⚡ 快速回覆選單</h3>
+                    <div class="architecture-diagram">
+                        <p style="font-size: 1.1em;">
+                            🎭 變更性格 | 💭 變更模式 | 📊 情緒分析 | 📜 對話歷史 | ❓ 幫助
+                        </p>
+                    </div>
+                    
+                    <h4 style="margin-top: 2rem;">🎭 性格選擇選單</h4>
+                    <div class="architecture-diagram">
+                        <p>😊 溫柔體貼 | 🌟 活潑開朗 | 📚 知性優雅 | 😈 調皮可愛</p>
+                    </div>
+                    
+                    <h4 style="margin-top: 1rem;">💭 對話模式選單</h4>
+                    <div class="architecture-diagram">
+                        <p>🤗 安慰模式 | 💬 聊天模式 | 👂 傾聽模式 | 💡 建議模式</p>
+                    </div>
+                </section>
+                
+                <section>
+                    <h3>🔧 特殊指令系統</h3>
+                    <div class="tech-grid">
+                        <div class="tech-card">
+                            <h4>設定指令</h4>
+                            <ul>
+                                <li><code>設定性格 [性格名稱]</code></li>
+                                <li><code>設定模式 [模式名稱]</code></li>
+                            </ul>
+                        </div>
+                        <div class="tech-card">
+                            <h4>查詢指令</h4>
+                            <ul>
+                                <li><code>我的設定</code> - 查看當前配置</li>
+                                <li><code>查看歷史</code> - 顯示對話記錄</li>
+                            </ul>
+                        </div>
+                        <div class="tech-card">
+                            <h4>功能指令</h4>
+                            <ul>
+                                <li><code>分析心情</code> - 情緒分析</li>
+                                <li><code>幫助說明</code> - 使用指南</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            <!-- 系統架構 -->
+            <section>
+                <section class="section-title">
+                    <h2>🏗️ 系統架構</h2>
+                </section>
+                
+                <section>
+                    <h3>📁 專案結構</h3>
+                    <pre><code class="hljs" style="font-size: 0.8em;">project/
+├── app.py                 # Gradio 主應用
+├── linebot_extension.py   # LINE Bot 擴展
+├── ai_girlfriend.py       # AI 核心邏輯
+├── database.py           # 資料庫管理
+├── demo.py               # Demo 版本
+├── requirements.txt      # 套件依賴
+├── .env                  # 環境配置
+└── 工具腳本/
+    ├── start.bat         # Windows 啟動器
+    ├── linebot_start.bat # LINE Bot 啟動器
+    └── check_*.py        # 設定檢查工具</code></pre>
+                </section>
+                
+                <section>
+                    <h3>🔄 資料流程</h3>
+                    <div class="architecture-diagram">
+                        <p style="font-size: 1.1em; color: #e91e63;">
+                            用戶輸入 → 情緒分析 → 取得歷史 → 生成回應 → 儲存記錄 → 回傳結果
+                        </p>
+                    </div>
+                    
+                    <h3 style="margin-top: 2rem;">💾 資料庫設計</h3>
+                    <pre><code class="hljs sql" style="font-size: 0.9em;">用戶表 (users):  id, name, preferences, created_at
+對話表 (chats):  id, user_id, message, response, emotion_context, timestamp</code></pre>
+                </section>
+                
+                <section>
+                    <h3>🌐 LINE Bot 部署架構</h3>
+                    <div class="architecture-diagram">
+                        <p style="font-size: 1.1em; color: #e91e63;">
+                            LINE Platform → Webhook → Flask Server → AI Engine → Database
+                        </p>
+                    </div>
+                </section>
+            </section>
+
+            <!-- 功能演示 -->
+            <section>
+                <section class="section-title">
+                    <h2>📊 功能演示</h2>
+                </section>
+                
+                <section>
+                    <h3>🎭 性格展示</h3>
+                    <table class="demo-table">
+                        <thead>
+                            <tr>
+                                <th>性格類型</th>
+                                <th>對話風格</th>
+                                <th>範例回應</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>溫柔體貼</td>
+                                <td>關懷體貼</td>
+                                <td>"親愛的，我聽到你的煩惱了，讓我們一起想想解決方法..."</td>
+                            </tr>
+                            <tr>
+                                <td>活潑開朗</td>
+                                <td>輕鬆幽默</td>
+                                <td>"哈哈，你今天怎麼這麼可愛！來跟我分享一些開心的事吧～"</td>
+                            </tr>
+                            <tr>
+                                <td>知性優雅</td>
+                                <td>深度思考</td>
+                                <td>"從你的話中，我感受到了深層的思考，讓我們探討一下..."</td>
+                            </tr>
+                            <tr>
+                                <td>調皮可愛</td>
+                                <td>俏皮撒嬌</td>
+                                <td>"哼～人家才不是故意的呢！你要怎麼補償我？"</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+                
+                <section>
+                    <h3>💭 對話模式展示</h3>
+                    <table class="demo-table">
+                        <thead>
+                            <tr>
+                                <th>模式類型</th>
+                                <th>應用場景</th>
+                                <th>回應策略</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>安慰模式</td>
+                                <td>用戶情緒低落</td>
+                                <td>同理心 + 正面鼓勵</td>
+                            </tr>
+                            <tr>
+                                <td>聊天模式</td>
+                                <td>日常對話</td>
+                                <td>輕鬆愉快 + 話題延伸</td>
+                            </tr>
+                            <tr>
+                                <td>傾聽模式</td>
+                                <td>用戶訴說心事</td>
+                                <td>專注傾聽 + 情感共鳴</td>
+                            </tr>
+                            <tr>
+                                <td>建議模式</td>
+                                <td>尋求幫助</td>
+                                <td>實用建議 + 行動指南</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </section>
+
+            <!-- 專案成果 -->
+            <section>
+                <section class="section-title">
+                    <h2>🏆 專案成果</h2>
+                </section>
+                
+                <section>
+                    <h3>✅ 已實現功能</h3>
+                    <ul class="feature-list">
+                        <li>Gradio Web 介面完整開發</li>
+                        <li>LINE Bot 跨平台整合</li>
+                        <li>多重性格與對話模式</li>
+                        <li>Chain-of-Thought 情緒分析</li>
+                        <li>會話隔離與隱私保護</li>
+                        <li>資料庫持久化儲存</li>
+                        <li>自動化部署腳本</li>
+                    </ul>
+                </section>
+                
+                <section>
+                    <h3>📊 技術指標</h3>
+                    <div class="tech-grid">
+                        <div class="tech-card">
+                            <h4>性能指標</h4>
+                            <ul>
+                                <li>回應時間: &lt; 3 秒</li>
+                                <li>可用性: 99.9%</li>
+                                <li>支援並發: 多用戶同時使用</li>
+                            </ul>
+                        </div>
+                        <div class="tech-card">
+                            <h4>功能指標</h4>
+                            <ul>
+                                <li>記憶容量: 20 條對話歷史</li>
+                                <li>性格種類: 4 種主要性格</li>
+                                <li>對話模式: 4 種專業模式</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                
+                <section>
+                    <h3>🎓 學習收穫</h3>
+                    <ul class="feature-list">
+                        <li>LLM 應用開發: 深度學習 OpenAI API 使用</li>
+                        <li>Prompt Engineering: 掌握提示詞工程技術</li>
+                        <li>Web 開發: Gradio 框架熟練運用</li>
+                        <li>Bot 開發: LINE Bot SDK 實戰經驗</li>
+                        <li>系統設計: 完整的軟體架構規劃</li>
+                    </ul>
+                </section>
+            </section>
+
+            <!-- 未來展望 -->
+            <section>
+                <section class="section-title">
+                    <h2>🔮 未來展望</h2>
+                </section>
+                
+                <section>
+                    <h3>🚀 技術升級</h3>
+                    <div class="tech-grid">
+                        <div class="tech-card">
+                            <h4>多模態互動</h4>
+                            <p>語音識別、圖片分析</p>
+                        </div>
+                        <div class="tech-card">
+                            <h4>記憶增強</h4>
+                            <p>長期記憶系統、個人檔案</p>
+                        </div>
+                        <div class="tech-card">
+                            <h4>AI 優化</h4>
+                            <p>使用更先進的語言模型</p>
+                        </div>
+                        <div class="tech-card">
+                            <h4>性能提升</h4>
+                            <p>快取機制、非同步處理</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <section>
+                    <h3>🌐 平台擴展</h3>
+                    <ul class="feature-list">
+                        <li>社群平台: Discord、Telegram Bot</li>
+                        <li>行動應用: 原生 App 開發</li>
+                        <li>智慧助手: 語音助手整合</li>
+                        <li>虛擬實境: VR/AR 互動體驗</li>
+                    </ul>
+                </section>
+                
+                <section>
+                    <h3>📈 商業應用</h3>
+                    <div class="tech-grid">
+                        <div class="tech-card">
+                            <h4>客戶服務</h4>
+                            <p>企業客服機器人</p>
+                        </div>
+                        <div class="tech-card">
+                            <h4>教育培訓</h4>
+                            <p>語言學習助手</p>
+                        </div>
+                        <div class="tech-card">
+                            <h4>心理諮詢</h4>
+                            <p>情感支持服務</p>
+                        </div>
+                        <div class="tech-card">
+                            <h4>娛樂社交</h4>
+                            <p>虛擬陪伴平台</p>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            <!-- 總結 -->
+            <section>
+                <section class="section-title">
+                    <h2>🙏 總結</h2>
+                </section>
+                
+                <section>
+                    <h3>專案成果總結</h3>
+                    <div class="highlight-box">
+                        <p>本專案成功整合了多項現代 AI 技術，打造出一個功能完整、用戶友善的 AI 女友聊天系統。</p>
+                        
+                        <p>從 <strong>LLM 串接</strong>、<strong>Prompt Engineering</strong>、<strong>Chain-of-Thought</strong> 到 <strong>Gradio 介面設計</strong> 與 <strong>LINE Bot 整合</strong>，展現了完整的 AI 應用開發能力。</p>
+                        
+                        <p>專案不僅具備技術深度，更注重使用者體驗，通過多重性格系統、情緒分析、會話隔離等功能，提供了個人化且安全的 AI 互動體驗。</p>
+                    </div>
+                </section>
+                
+                <section class="title-slide">
+                    <h1>💕 感謝您的聆聽！</h1>
+                    <h2>AI 女友聊天機器人 🤖</h2>
+                    <p style="font-size: 1.2em; margin-top: 2rem;">
+                        專案展示完畢
+                    </p>
+                </section>
+            </section>
+        </div>
+    </div>
+
+    <!-- Navigation hint -->
+    <div class="navigation-hint">
+        使用 ← → 鍵導航
+    </div>
+
+    <!-- Reveal.js JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/plugin/markdown/markdown.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/plugin/zoom/zoom.js"></script>
+
+    <script>
+        // Initialize Reveal.js
+        Reveal.initialize({
+            hash: true,
+            controls: true,
+            progress: true,
+            center: true,
+            transition: 'slide',
+            transitionSpeed: 'default',
+            backgroundTransition: 'fade',
+            
+            // Display slide numbers
+            slideNumber: 'c/t',
+            
+            // Enable keyboard navigation
+            keyboard: true,
+            
+            // Touch navigation on mobile
+            touch: true,
+            
+            // Loop the slides
+            loop: false,
+            
+            // Show overview on ESC
+            overview: true,
+            
+            // Zoom with Alt+click
+            zoomKey: 'alt',
+            
+            plugins: [ 
+                RevealMarkdown, 
+                RevealHighlight, 
+                RevealNotes, 
+                RevealZoom 
+            ]
+        });
+
+        // Add custom keyboard shortcuts
+        document.addEventListener('keydown', function(event) {
+            // Press 'F' for fullscreen
+            if (event.key === 'f' || event.key === 'F') {
+                if (document.fullscreenElement) {
+                    document.exitFullscreen();
+                } else {
+                    document.documentElement.requestFullscreen();
+                }
+            }
+        });
+
+        // Auto-hide navigation hint after 5 seconds
+        setTimeout(function() {
+            const hint = document.querySelector('.navigation-hint');
+            if (hint) {
+                hint.style.opacity = '0.3';
+            }
+        }, 5000);
+    </script>
+</body>
+</html>
