@@ -32,6 +32,9 @@ echo.
 echo 簡報直接連結：
 echo https://weiweijason.github.io/presentation.html
 echo.
+echo QR Code 頁面：
+echo https://weiweijason.github.io/qr-codes.html
+echo.
 echo 通常需要 1-2 分鐘才會生效
 echo ======================================
 

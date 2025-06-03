@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💕 AI 女友聊天機器人 - QR Code 連結</title>
+    
+    <!-- QR Code 生成庫 -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    
+    <style>
+        body {
+            font-family: "Source Sans Pro", Helvetica, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(45deg, #f06292, #e91e63);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            margin: 0.5rem 0 0 0;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 2rem;
+        }
+        
+        .qr-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .qr-card {
+            background: #f8f9fa;
+            border: 2px solid #e91e63;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .qr-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .qr-card h3 {
+            color: #e91e63;
+            font-size: 1.8em;
+            margin: 0 0 1rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .qr-code {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .qr-code canvas {
+            border-radius: 8px;
+        }
+        
+        .qr-info {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            text-align: left;
+        }
+        
+        .qr-info h4 {
+            color: #e91e63;
+            margin: 0 0 1rem 0;
+            font-size: 1.3em;
+        }
+        
+        .qr-info ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+        
+        .qr-info li {
+            margin: 0.5rem 0;
+            line-height: 1.6;
+        }
+        
+        .url-display {
+            background: #f1f3f4;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: monospace;
+            word-break: break-all;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .copy-btn {
+            background: #e91e63;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-top: 0.5rem;
+            transition: background 0.3s ease;
+        }
+        
+        .copy-btn:hover {
+            background: #d81b60;
+        }
+        
+        .copy-btn:active {
+            background: #c2185b;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+        
+        .status-demo {
+            background: #ffeb3b;
+            color: #333;
+        }
+        
+        .status-coming {
+            background: #ff9800;
+            color: white;
+        }
+        
+        .instructions {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .instructions h3 {
+            color: #1976d2;
+            margin: 0 0 1rem 0;
+            font-size: 1.5em;
+        }
+        
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin: 1rem 0;
+            gap: 1rem;
+        }
+        
+        .step-number {
+            background: #1976d2;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex: 1;
+            line-height: 1.6;
+        }
+        
+        .back-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 0.8rem 2rem;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 2rem 0;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .back-btn:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .qr-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 1rem;
+            }
+            
+            .qr-card {
+                padding: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .qr-card {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💕 AI 女友聊天機器人</h1>
+            <p>QR Code 快速連結</p>
+        </div>
+        
+        <div class="content">
+            <div class="qr-section">
+                <!-- Gradio Web UI -->
+                <div class="qr-card">
+                    <h3>🖥️ Gradio Web UI</h3>
+                    <div class="status-badge status-demo">Demo 版本</div>
+                    
+                    <div class="qr-code">
+                        <img src="image/slide_images/gradio.png" alt="Gradio QR Code" style="width: 200px; height: 200px; border-radius: 10px;">
+                    </div>
+                      <div class="url-display" id="gradio-url">
+                        https://1df58c35056b916ada.gradio.live/
+                    </div>
+                    <button class="copy-btn" onclick="copyToClipboard('gradio-url')">
+                        📋 複製連結
+                    </button>
+                    
+                    <div class="qr-info">
+                        <h4>✨ 特色功能</h4>
+                        <ul>
+                            <li>🎭 4種性格模式（溫柔體貼、活潑開朗、知性優雅、調皮可愛）</li>
+                            <li>💭 4種對話模式（安慰、聊天、傾聽、建議）</li>
+                            <li>🧠 智能情緒分析</li>
+                            <li>💾 對話記憶功能</li>
+                            <li>🔒 會話隔離保護隱私</li>
+                        </ul>
+                    </div>
+                </div>
+                  <!-- LINE Bot -->
+                <div class="qr-card">
+                    <h3>📱 LINE Bot</h3>
+                    <div class="status-badge status-demo">✅ 可用</div>
+                    
+                    <div class="qr-code">
+                        <img src="image/slide_images/line_bot.png" alt="LINE Bot QR Code" style="width: 200px; height: 200px; border-radius: 10px;">
+                    </div>
+                    
+                    <div class="url-display" id="linebot-url">
+                        LINE ID: @457koktf
+                    </div>
+                    <button class="copy-btn" onclick="copyToClipboard('linebot-url')">
+                        📋 複製 LINE ID
+                    </button>
+                      <div class="qr-info">
+                        <h4>🚀 LINE Bot 功能</h4>
+                        <ul>
+                            <li>⚡ 快速回覆選單</li>
+                            <li>🎭 即時性格切換</li>
+                            <li>💬 群組聊天支援</li>
+                            <li>📊 情緒分析報告</li>
+                            <li>🔧 特殊指令系統</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 使用說明 -->
+            <div class="instructions">
+                <h3>📱 如何使用 QR Code</h3>
+                
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <strong>開啟手機相機或QR Code掃描器</strong><br>
+                        大部分手機的內建相機都支援QR Code掃描功能
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <strong>對準QR Code進行掃描</strong><br>
+                        將手機相機對準上方的QR Code，保持適當距離
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <strong>點擊彈出的連結</strong><br>
+                        掃描成功後會出現連結，點擊即可開啟AI女友聊天介面
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <strong>開始與AI女友聊天</strong><br>
+                        選擇您喜歡的性格和對話模式，享受個人化的AI聊天體驗
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center;">
+                <a href="presentation.html" class="back-btn">
+                    ← 返回簡報
+                </a>
+                <a href="index.html" class="back-btn">
+                    🏠 回到首頁
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // QR Code 生成函數
+        function generateQRCode(elementId, text, options = {}) {
+            const canvas = document.createElement('canvas');
+            const container = document.getElementById(elementId);
+            container.innerHTML = '';
+            container.appendChild(canvas);
+            
+            const defaultOptions = {
+                width: 200,
+                height: 200,
+                colorDark: '#000000',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.H
+            };
+            
+            const finalOptions = { ...defaultOptions, ...options };
+            
+            QRCode.toCanvas(canvas, text, finalOptions, function (error) {
+                if (error) {
+                    console.error('QR Code 生成失敗:', error);
+                    container.innerHTML = '<p style="color: red;">QR Code 生成失敗</p>';
+                } else {
+                    console.log('QR Code 生成成功');
+                }
+            });
+        }
+        
+        // 複製到剪貼簿函數
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent.trim();
+            
+            navigator.clipboard.writeText(text).then(function() {
+                // 顯示複製成功提示
+                const button = element.nextElementSibling;
+                const originalText = button.textContent;
+                button.textContent = '✅ 已複製！';
+                button.style.background = '#4caf50';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '#e91e63';
+                }, 2000);
+            }).catch(function(err) {
+                console.error('複製失敗:', err);
+                alert('複製失敗，請手動複製連結');
+            });
+        }        // 頁面載入完成後生成 QR Code
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gradio 和 LINE Bot QR Code 都已替換為靜態圖片，不需要動態生成
+            console.log('QR Code 頁面載入完成');
+        });          // 響應式QR Code大小調整
+        function adjustQRSize() {
+            const isMobile = window.innerWidth <= 480;
+            const qrSize = isMobile ? 150 : 200;
+            
+            // 調整所有 QR Code 圖片大小
+            const qrImages = document.querySelectorAll('.qr-code img');
+            qrImages.forEach(img => {
+                img.style.width = qrSize + 'px';
+                img.style.height = qrSize + 'px';
+            });
+        }
+        
+        // 視窗大小改變時調整QR Code
+        window.addEventListener('resize', adjustQRSize);
+    </script>
+</body>
+</html>

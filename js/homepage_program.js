@@ -18,6 +18,7 @@ $(document).ready(function () {
             // $('.js-result').text('開獎結果：' + options[rand]);
         }, 10);
     });
+    
     $('.js-start2').on('click', function () {
         // var options = $('.js-textarea').val().split('\n');
         // var rand = Math.floor(Math.random() * options.length);
@@ -28,7 +29,8 @@ $(document).ready(function () {
         // $('.js-result').text('等待結果...');
         // if(rand>0){
         //     document.write("qqq");
-        // }        setTimeout(function () {
+        // }
+        setTimeout(function () {
             location.href='html/taipeizoo_index.html';
             
             // $('.js-result').text('開獎結果：' + options[rand]);
@@ -46,4 +48,11 @@ $(document).ready(function () {
             location.href='presentation.html';
         }, 10);
     });
+    
+    $('.js-start5').on('click', function () {
+        setTimeout(function () {
+            location.href='qr-codes.html';
+        }, 10);
+    });
+});
 

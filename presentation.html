@@ -675,8 +675,7 @@
                 <section class="section-title">
                     <h2>🙏 總結</h2>
                 </section>
-                
-                <section>
+                  <section>
                     <h3>專案成果總結</h3>
                     <div class="highlight-box">
                         <p>本專案成功整合了多項現代 AI 技術，打造出一個功能完整、用戶友善的 AI 女友聊天系統。</p>
@@ -684,6 +683,57 @@
                         <p>從 <strong>LLM 串接</strong>、<strong>Prompt Engineering</strong>、<strong>Chain-of-Thought</strong> 到 <strong>Gradio 介面設計</strong> 與 <strong>LINE Bot 整合</strong>，展現了完整的 AI 應用開發能力。</p>
                         
                         <p>專案不僅具備技術深度，更注重使用者體驗，通過多重性格系統、情緒分析、會話隔離等功能，提供了個人化且安全的 AI 互動體驗。</p>
+                    </div>
+                      <div style="text-align: center; margin-top: 2rem;">
+                        <a href="qr-codes.html" style="display: inline-block; background: linear-gradient(45deg, #f06292, #e91e63); color: white; padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-size: 1.2em; font-weight: bold; box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3); transition: all 0.3s ease;" 
+                           onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 20px rgba(233, 30, 99, 0.4)'"
+                           onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(233, 30, 99, 0.3)'">
+                            📱 查看 QR Code 快速連結
+                        </a>
+                    </div>
+                </section>
+                
+                <!-- QR Code 展示頁面 -->
+                <section>
+                    <h3>📱 QR Code 快速連結</h3>
+                    <div class="tech-grid">
+                        <div class="tech-card">
+                            <h4>🖥️ Gradio Web UI</h4>
+                            <div style="text-align: center; margin: 1rem 0;">
+                                <img src="image/slide_images/gradio.png" alt="Gradio QR Code" style="width: 200px; height: 200px; border-radius: 10px;">
+                            </div>
+                            <p style="font-size: 0.9em; color: #666;">
+                                掃描此 QR Code 立即體驗 AI 女友聊天機器人
+                            </p>
+                        </div>                        <div class="tech-card">
+                            <h4>📱 LINE Bot</h4>
+                            <div style="text-align: center; margin: 1rem 0;">
+                                <img src="image/slide_images/line_bot.png" alt="LINE Bot QR Code" style="width: 200px; height: 200px; border-radius: 10px;">
+                            </div>
+                            <p style="font-size: 0.9em; color: #666;">
+                                LINE Bot 現已上線！LINE ID: @457koktf
+                            </p>
+                        </div>
+                    </div>
+                      <div class="highlight-box">
+                        <h4>📱 使用方式</h4>
+                        <ol>
+                            <li>使用手機相機或QR Code掃描器</li>
+                            <li>選擇掃描 Gradio Web UI 或 LINE Bot QR Code</li>
+                            <li>點擊彈出的連結或加入 LINE 好友</li>
+                            <li>立即開始與AI女友聊天</li>
+                        </ol>
+                        
+                        <p style="margin-top: 1rem; text-align: center;">
+                            <strong>🖥️ Gradio Web UI:</strong> 網頁版介面，功能完整<br>
+                            <strong>📱 LINE Bot:</strong> LINE ID: @457koktf，手機專用
+                        </p>
+                        
+                        <p style="margin-top: 1rem; text-align: center;">
+                            <a href="qr-codes.html" style="color: #e91e63; text-decoration: none; font-weight: bold;">
+                                🔗 或點擊這裡查看完整QR Code頁面
+                            </a>
+                        </p>
                     </div>
                 </section>
                 
@@ -701,14 +751,15 @@
     <!-- Navigation hint -->
     <div class="navigation-hint">
         使用 ← → 鍵導航
-    </div>
-
-    <!-- Reveal.js JavaScript -->
+    </div>    <!-- Reveal.js JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/plugin/notes/notes.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/plugin/markdown/markdown.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/plugin/highlight/highlight.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/plugin/zoom/zoom.js"></script>
+    
+    <!-- QR Code 生成庫 -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 
     <script>
         // Initialize Reveal.js
@@ -757,15 +808,29 @@
                     document.documentElement.requestFullscreen();
                 }
             }
-        });
-
-        // Auto-hide navigation hint after 5 seconds
+        });        // Auto-hide navigation hint after 5 seconds
         setTimeout(function() {
             const hint = document.querySelector('.navigation-hint');
             if (hint) {
                 hint.style.opacity = '0.3';
             }
-        }, 5000);
+        }, 5000);          // 生成簡報中的 QR Code
+        function generatePresentationQR() {
+            // 檢查 QRCode 是否已載入
+            if (typeof QRCode !== 'undefined') {
+                // Gradio 和 LINE Bot QR Code 都已替換為靜態圖片，不需要動態生成
+                console.log('簡報 QR Code 區域已準備完成');
+            }
+        }
+        
+        // 當簡報切換到QR Code頁面時生成QR Code
+        Reveal.on('slidechanged', function(event) {
+            // 延遲一點再生成，確保DOM已準備好
+            setTimeout(generatePresentationQR, 100);
+        });
+        
+        // 初始載入時也嘗試生成
+        setTimeout(generatePresentationQR, 1000);
     </script>
 </body>
 </html>
