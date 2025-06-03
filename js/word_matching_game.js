@@ -10,6 +10,12 @@ class WordMatchingGame {
         this.gameStarted = false;
         this.gameEnded = false;
         
+        // 遊戲化系統
+        this.gameStars = 0; // 本局獲得的星星
+        this.totalStars = this.loadTotalStars(); // 總星星數
+        this.currentLevel = this.calculateLevel(this.totalStars); // 當前等級
+        this.speechSynthesis = window.speechSynthesis; // 語音合成
+        
         // DOM 元素
         this.startScreen = document.getElementById('start-screen');
         this.gameScreen = document.getElementById('game-screen');
@@ -26,10 +32,28 @@ class WordMatchingGame {
         this.feedback = document.getElementById('feedback');
         this.feedbackText = document.getElementById('feedback-text');
         this.nextBtn = document.getElementById('next-btn');
-          // 結束畫面元素
+        
+        // 遊戲化元素
+        this.gameStarsSpan = document.getElementById('game-stars');
+        this.totalStarsSpan = document.getElementById('total-stars');
+        this.userLevelSpan = document.getElementById('user-level');
+        this.levelProgressFill = document.getElementById('level-progress-fill');
+        this.currentLevelStarsSpan = document.getElementById('current-level-stars');
+        this.nextLevelStarsSpan = document.getElementById('next-level-stars');
+        this.mascotMessage = document.getElementById('mascot-message');
+        this.readQuestionBtn = document.getElementById('read-question-btn');
+        this.starAnimation = document.getElementById('star-animation');
+        this.levelUpAnimation = document.getElementById('level-up-animation');
+        this.newLevel = document.getElementById('new-level');
+        
+        // 結束畫面元素
         this.finalScore = document.getElementById('final-score');
         this.finalTotal = document.getElementById('final-total');
         this.scoreMessage = document.getElementById('score-message');
+        this.finalGameStars = document.getElementById('final-game-stars');
+        this.finalTotalStars = document.getElementById('final-total-stars');
+        this.finalLevel = document.getElementById('final-level');
+        this.finalMascotMessage = document.getElementById('final-mascot-message');
         
         // 按鈕
         this.startBtn = document.getElementById('start-btn');
@@ -41,19 +65,30 @@ class WordMatchingGame {
         
         this.initEventListeners();
         this.loadAllQuestions(); // 頁面載入時就先載入所有題目
+        this.updateUserStats(); // 初始化用戶統計
+        this.showMascotMessage('你好！我是小喵老師！一起來學習吧！'); // 歡迎訊息
     }
-      initEventListeners() {
+
+    initEventListeners() {
         this.startBtn.addEventListener('click', () => this.startGame());
         this.restartBtn.addEventListener('click', () => this.restartGame());
         this.backHomeBtn.addEventListener('click', () => this.goToHome());
         this.nextBtn.addEventListener('click', () => this.nextQuestion());
+        
+        // 語音朗讀按鈕
+        this.readQuestionBtn.addEventListener('click', () => this.readQuestion());
+        
+        // 吉祥物點擊事件
+        document.querySelector('.mascot-character').addEventListener('click', () => {
+            this.showRandomMascotMessage();
+        });
         
         // 題目數量選擇事件
         this.countBtns.forEach(btn => {
             btn.addEventListener('click', () => this.selectQuestionCount(btn));
         });
     }
-    
+
     // 選擇題目數量
     selectQuestionCount(selectedBtn) {
         // 移除所有按鈕的選中狀態
@@ -68,7 +103,153 @@ class WordMatchingGame {
         // 顯示開始遊戲按鈕
         this.startBtn.classList.remove('hidden');
         
+        // 吉祥物鼓勵
+        this.showMascotMessage(`很好！選擇了${this.selectedQuestionCount}題，準備好了嗎？`);
+        
         console.log(`選擇了 ${this.selectedQuestionCount} 題`);
+    }
+    
+    // ===== 遊戲化系統方法 =====
+    
+    // 載入總星星數
+    loadTotalStars() {
+        const saved = localStorage.getItem('wordGame_totalStars');
+        return saved ? parseInt(saved) : 0;
+    }
+    
+    // 保存總星星數
+    saveTotalStars() {
+        localStorage.setItem('wordGame_totalStars', this.totalStars.toString());
+    }
+    
+    // 計算等級（每10顆星星升一級）
+    calculateLevel(stars) {
+        return Math.floor(stars / 10) + 1;
+    }
+    
+    // 獲得星星需要的下一級星星數
+    getNextLevelStars(level) {
+        return level * 10;
+    }
+    
+    // 更新用戶統計顯示
+    updateUserStats() {
+        this.userLevelSpan.textContent = this.currentLevel;
+        this.totalStarsSpan.textContent = this.totalStars;
+        
+        // 計算升級進度
+        const currentLevelStars = this.totalStars % 10;
+        const nextLevelStars = 10;
+        
+        this.currentLevelStarsSpan.textContent = currentLevelStars;
+        this.nextLevelStarsSpan.textContent = nextLevelStars;
+        
+        // 更新進度條
+        const progressPercent = (currentLevelStars / nextLevelStars) * 100;
+        this.levelProgressFill.style.width = `${progressPercent}%`;
+    }
+    
+    // 顯示吉祥物訊息
+    showMascotMessage(message, duration = 3000) {
+        this.mascotMessage.textContent = message;
+        const speechBubble = document.querySelector('.mascot-speech');
+        speechBubble.classList.remove('hidden');
+        
+        setTimeout(() => {
+            speechBubble.classList.add('hidden');
+        }, duration);
+    }
+    
+    // 隨機吉祥物訊息
+    showRandomMascotMessage() {
+        const messages = [
+            '加油！你做得很好！',
+            '繼續努力，你一定可以的！',
+            '學習很有趣對吧？',
+            '每一道題都是進步的機會！',
+            '相信自己，你很棒！',
+            '學習讓我們變得更聰明！'
+        ];
+        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+        this.showMascotMessage(randomMessage);
+    }
+    
+    // 語音朗讀題目
+    readQuestion() {
+        if (this.speechSynthesis && this.questionText.textContent) {
+            // 停止之前的朗讀
+            this.speechSynthesis.cancel();
+            
+            // 準備朗讀文字（移除底線標記）
+            const textToRead = this.questionText.textContent.replace(/_+/g, '空格');
+            
+            const utterance = new SpeechSynthesisUtterance(textToRead);
+            utterance.lang = 'zh-TW';
+            utterance.rate = 0.8; // 較慢的速度
+            utterance.pitch = 1.1; // 稍高的音調，更適合兒童
+            
+            this.speechSynthesis.speak(utterance);
+            
+            // 按鈕動畫效果
+            this.readQuestionBtn.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                this.readQuestionBtn.style.transform = 'scale(1)';
+            }, 200);
+        }
+    }
+    
+    // 獲得星星
+    earnStar() {
+        this.gameStars++;
+        this.totalStars++;
+        
+        // 更新顯示
+        this.gameStarsSpan.textContent = this.gameStars;
+        this.updateUserStats();
+        
+        // 顯示星星動畫
+        this.showStarAnimation();
+        
+        // 檢查是否升級
+        const newLevel = this.calculateLevel(this.totalStars);
+        if (newLevel > this.currentLevel) {
+            this.currentLevel = newLevel;
+            this.showLevelUpAnimation();
+        }
+        
+        // 保存星星數
+        this.saveTotalStars();
+    }
+    
+    // 顯示星星獲得動畫
+    showStarAnimation() {
+        this.starAnimation.classList.remove('hidden');
+        setTimeout(() => {
+            this.starAnimation.classList.add('hidden');
+        }, 1500);
+    }
+    
+    // 顯示升級動畫
+    showLevelUpAnimation() {
+        this.newLevel.textContent = this.currentLevel;
+        this.levelUpAnimation.classList.remove('hidden');
+        
+        setTimeout(() => {
+            this.levelUpAnimation.classList.add('hidden');
+        }, 3000);
+    }
+    
+    // 獲得最終吉祥物訊息
+    getFinalMascotMessage(scorePercent) {
+        if (scorePercent >= 90) {
+            return '哇！太厲害了！你是語文小天才！🌟';
+        } else if (scorePercent >= 70) {
+            return '很棒！繼續保持這樣的努力！👏';
+        } else if (scorePercent >= 50) {
+            return '不錯喔！多練習會越來越好的！💪';
+        } else {
+            return '沒關係，學習需要時間，我們一起加油！❤️';
+        }
     }
     
     // 載入所有題目（在頁面載入時執行）
@@ -106,27 +287,7 @@ class WordMatchingGame {
         console.log(`隨機選擇了 ${this.totalQuestions} 道題目`);
         return this.questions;
     }
-    
-    async loadQuestions() {
-        try {
-            this.showLoading();
-            const response = await fetch('../data/questions.json');
-            if (!response.ok) {
-                throw new Error('無法載入題目資料');
-            }
-            const data = await response.json();
-            this.questions = this.shuffleArray([...data.questions]);
-            this.totalQuestions = this.questions.length;
-            this.hideLoading();
-            return true;
-        } catch (error) {
-            console.error('載入題目失敗:', error);
-            alert('載入題目失敗，請檢查網路連線或稍後再試。');
-            this.hideLoading();
-            return false;
-        }
-    }
-    
+
     shuffleArray(array) {
         const shuffled = [...array];
         for (let i = shuffled.length - 1; i > 0; i--) {
@@ -135,7 +296,8 @@ class WordMatchingGame {
         }
         return shuffled;
     }
-      async startGame() {
+
+    async startGame() {
         // 檢查是否已選擇題目數量
         if (this.selectedQuestionCount === 0) {
             alert('請先選擇題目數量！');
@@ -155,6 +317,13 @@ class WordMatchingGame {
         this.gameEnded = false;
         this.currentQuestionIndex = 0;
         this.score = 0;
+        this.gameStars = 0; // 重置本局星星
+        
+        // 更新遊戲星星顯示
+        this.gameStarsSpan.textContent = this.gameStars;
+        
+        // 吉祥物鼓勵
+        this.showMascotMessage('遊戲開始！一起來挑戰吧！🎯');
         
         this.showScreen('game');
         this.updateGameUI();
@@ -187,7 +356,7 @@ class WordMatchingGame {
         // 隱藏回饋和下一題按鈕
         this.hideFeedback();
     }
-    
+
     selectOption(selectedOption, correctAnswer) {
         const isCorrect = selectedOption === correctAnswer;
         
@@ -202,10 +371,11 @@ class WordMatchingGame {
             }
         });
         
-        // 更新分數
+        // 更新分數和星星
         if (isCorrect) {
             this.score++;
             this.updateScoreDisplay();
+            this.earnStar(); // 獲得星星
         }
         
         // 顯示回饋
@@ -216,15 +386,33 @@ class WordMatchingGame {
             this.showNextButton();
         }, 1500);
     }
-    
+
     showFeedback(isCorrect, correctAnswer) {
         this.feedback.classList.remove('hidden', 'correct', 'incorrect');
         this.feedback.classList.add(isCorrect ? 'correct' : 'incorrect');
         
         if (isCorrect) {
             this.feedbackText.textContent = '🎉 答對了！太棒了！';
+            // 隨機鼓勵訊息
+            const encourageMessages = [
+                '太棒了！你真聰明！',
+                '完全正確！繼續加油！',
+                '答對了！你學得很快！',
+                '很好！你越來越厲害了！'
+            ];
+            const randomMessage = encourageMessages[Math.floor(Math.random() * encourageMessages.length)];
+            setTimeout(() => this.showMascotMessage(randomMessage), 800);
         } else {
-            this.feedbackText.textContent = `❌ 答錯了，正確答案是「${correctAnswer}」`;
+            this.feedbackText.textContent = `😔 答錯了，正確答案是「${correctAnswer}」`;
+            // 安慰和鼓勵訊息
+            const comfortMessages = [
+                '沒關係，學習需要過程！',
+                '繼續努力，你一定可以的！',
+                '錯誤是學習的好機會！',
+                '下次會更好的，加油！'
+            ];
+            const randomMessage = comfortMessages[Math.floor(Math.random() * comfortMessages.length)];
+            setTimeout(() => this.showMascotMessage(randomMessage), 800);
         }
     }
     
@@ -263,15 +451,34 @@ class WordMatchingGame {
         const progress = ((this.currentQuestionIndex + 1) / this.totalQuestions) * 100;
         this.progressFill.style.width = `${progress}%`;
     }
-    
+
     endGame() {
         this.gameEnded = true;
+        
+        // 保存星星數據
+        this.saveTotalStars();
+        
+        // 顯示最終吉祥物訊息
+        const scorePercent = (this.score / this.totalQuestions) * 100;
+        const finalMessage = this.getFinalMascotMessage(scorePercent);
+        
         this.showScreen('end');
         this.displayFinalResults();
+        
+        // 延遲顯示吉祥物訊息
+        setTimeout(() => {
+            this.finalMascotMessage.textContent = finalMessage;
+        }, 500);
     }
-      displayFinalResults() {
+
+    displayFinalResults() {
         this.finalScore.textContent = this.score;
         this.finalTotal.textContent = this.totalQuestions;
+        
+        // 更新星星和等級信息
+        this.finalGameStars.textContent = this.gameStars;
+        this.finalTotalStars.textContent = this.totalStars;
+        this.finalLevel.textContent = this.currentLevel;
         
         const percentage = (this.score / this.totalQuestions) * 100;
         let message = '';
@@ -287,19 +494,27 @@ class WordMatchingGame {
         } else {
             message = '📚 別灰心！多閱讀會幫助你學會更多詞語！';
         }
-        
+
         this.scoreMessage.textContent = message;
     }
-      restartGame() {
+
+    restartGame() {
         this.currentQuestionIndex = 0;
         this.score = 0;
         this.gameStarted = false;
         this.gameEnded = false;
+        this.gameStars = 0; // 重置本局星星
+        
+        // 更新遊戲星星顯示
+        this.gameStarsSpan.textContent = this.gameStars;
         
         // 重新選擇題目（保持相同數量但重新隨機）
         if (this.selectedQuestionCount > 0) {
             this.selectRandomQuestions(this.selectedQuestionCount);
         }
+        
+        // 吉祥物鼓勵
+        this.showMascotMessage('準備好再次挑戰了嗎？💪');
         
         this.showScreen('game');
         this.updateGameUI();
