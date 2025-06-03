@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>國小語文詞語配對遊戲</title>
+    <link rel="stylesheet" href="../css/word_matching_game.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 遊戲標題 -->
+        <header class="game-header">
+            <h1>🎮 語文詞語配對遊戲</h1>
+            <p>選擇正確的詞語來完成句子吧！</p>
+        </header>
+
+        <!-- 遊戲開始畫面 -->
+        <div id="start-screen" class="screen">
+            <div class="welcome-card">
+                <h2>歡迎來到詞語配對遊戲！</h2>
+                <p>這裡有 10 道題目等著你來挑戰</p>
+                <p>仔細閱讀句子，選擇最適合的詞語填入空格</p>
+                <button id="start-btn" class="btn btn-primary">🚀 開始遊戲</button>
+            </div>
+        </div>
+
+        <!-- 遊戲進行畫面 -->
+        <div id="game-screen" class="screen hidden">
+            <!-- 進度顯示 -->
+            <div class="progress-container">
+                <div class="progress-info">
+                    <span>題目 <span id="current-question">1</span> / <span id="total-questions">10</span></span>
+                    <span>得分：<span id="current-score">0</span></span>
+                </div>
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+            </div>
+
+            <!-- 題目區域 -->
+            <div class="question-container">
+                <div class="question-card">
+                    <h3>請選擇正確的詞語：</h3>
+                    <p id="question-text" class="question-text"></p>
+                </div>
+            </div>
+
+            <!-- 選項區域 -->
+            <div class="options-container">
+                <div id="options-grid" class="options-grid">
+                    <!-- 選項會動態生成 -->
+                </div>
+            </div>
+
+            <!-- 回饋訊息 -->
+            <div id="feedback" class="feedback hidden">
+                <div id="feedback-content" class="feedback-content">
+                    <span id="feedback-text"></span>
+                    <button id="next-btn" class="btn btn-secondary hidden">下一題 ➡️</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 遊戲結束畫面 -->
+        <div id="end-screen" class="screen hidden">
+            <div class="result-card">
+                <h2>🎉 遊戲完成！</h2>
+                <div class="score-display">
+                    <p class="score-text">你的成績：</p>
+                    <p class="final-score"><span id="final-score">0</span> / 10</p>
+                    <p id="score-message" class="score-message"></p>
+                </div>
+                <div class="result-actions">
+                    <button id="restart-btn" class="btn btn-primary">🔄 再玩一次</button>
+                    <button id="back-home-btn" class="btn btn-secondary">🏠 回到首頁</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 載入中畫面 -->
+        <div id="loading-screen" class="screen hidden">
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <p>載入題目中...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/word_matching_game.js"></script>
+</body>
+</html>

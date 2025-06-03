@@ -48,10 +48,15 @@ $(document).ready(function () {
             location.href='presentation.html';
         }, 10);
     });
-    
-    $('.js-start5').on('click', function () {
+      $('.js-start5').on('click', function () {
         setTimeout(function () {
             location.href='qr-codes.html';
+        }, 10);
+    });
+    
+    $('.js-start6').on('click', function () {
+        setTimeout(function () {
+            location.href='html/word_matching_game.html';
         }, 10);
     });
 });

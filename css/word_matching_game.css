@@ -1,0 +1,403 @@
+/* 基本重置和全局設定 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Microsoft JhengHei', '微軟正黑體', Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* 畫面控制 */
+.screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* 遊戲標題 */
+.game-header {
+    text-align: center;
+    margin-bottom: 30px;
+    color: white;
+}
+
+.game-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.game-header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+/* 卡片樣式 */
+.welcome-card, .question-card, .result-card {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+}
+
+.welcome-card h2, .result-card h2 {
+    color: #5a67d8;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.welcome-card p {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+/* 按鈕樣式 */
+.btn {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    margin: 10px;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+}
+
+.btn-secondary {
+    background: #f7fafc;
+    color: #4a5568;
+    border: 2px solid #e2e8f0;
+}
+
+.btn-secondary:hover {
+    background: #edf2f7;
+    transform: translateY(-2px);
+}
+
+/* 進度條 */
+.progress-container {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 30px;
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: #4a5568;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    border-radius: 10px;
+    transition: width 0.5s ease;
+    width: 0%;
+}
+
+/* 題目區域 */
+.question-container {
+    width: 100%;
+    max-width: 700px;
+    margin-bottom: 30px;
+}
+
+.question-card {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.question-card h3 {
+    color: #5a67d8;
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+}
+
+.question-text {
+    font-size: 1.4rem;
+    line-height: 1.8;
+    color: #2d3748;
+    font-weight: 500;
+    text-align: left;
+    background: #f7fafc;
+    padding: 20px;
+    border-radius: 15px;
+    border-left: 5px solid #667eea;
+}
+
+/* 選項區域 */
+.options-container {
+    width: 100%;
+    max-width: 700px;
+    margin-bottom: 30px;
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.option-btn {
+    background: white;
+    border: 3px solid #e2e8f0;
+    border-radius: 15px;
+    padding: 20px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #4a5568;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.option-btn:hover {
+    border-color: #667eea;
+    background: #f7fafc;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+}
+
+.option-btn.correct {
+    background: #48bb78;
+    color: white;
+    border-color: #38a169;
+    animation: correctPulse 0.6s ease;
+}
+
+.option-btn.incorrect {
+    background: #f56565;
+    color: white;
+    border-color: #e53e3e;
+    animation: incorrectShake 0.6s ease;
+}
+
+.option-btn.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+/* 動畫效果 */
+@keyframes correctPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes incorrectShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* 回饋訊息 */
+.feedback {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 20px;
+}
+
+.feedback-content {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.feedback-text {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.feedback.correct .feedback-text {
+    color: #48bb78;
+}
+
+.feedback.incorrect .feedback-text {
+    color: #f56565;
+}
+
+/* 結果畫面 */
+.result-card {
+    max-width: 500px;
+}
+
+.score-display {
+    margin: 30px 0;
+}
+
+.score-text {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.final-score {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #5a67d8;
+    margin-bottom: 15px;
+}
+
+.score-message {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.result-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+/* 載入中畫面 */
+.loading-content {
+    text-align: center;
+    color: white;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255,255,255,0.3);
+    border-top: 5px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-content p {
+    font-size: 1.2rem;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .game-header h1 {
+        font-size: 2rem;
+    }
+    
+    .welcome-card, .question-card, .result-card {
+        padding: 25px;
+    }
+    
+    .question-text {
+        font-size: 1.2rem;
+    }
+    
+    .options-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .option-btn {
+        padding: 15px;
+        font-size: 1rem;
+        min-height: 60px;
+    }
+    
+    .final-score {
+        font-size: 2.5rem;
+    }
+    
+    .result-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .progress-container {
+        padding: 15px;
+    }
+    
+    .question-card {
+        padding: 20px;
+    }
+    
+    .question-text {
+        font-size: 1.1rem;
+        padding: 15px;
+    }
+    
+    .option-btn {
+        padding: 12px;
+        min-height: 50px;
+    }
+}
