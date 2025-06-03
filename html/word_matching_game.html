@@ -12,15 +12,36 @@
         <header class="game-header">
             <h1>🎮 語文詞語配對遊戲</h1>
             <p>選擇正確的詞語來完成句子吧！</p>
-        </header>
-
-        <!-- 遊戲開始畫面 -->
+        </header>        <!-- 遊戲開始畫面 -->
         <div id="start-screen" class="screen">
             <div class="welcome-card">
                 <h2>歡迎來到詞語配對遊戲！</h2>
-                <p>這裡有 10 道題目等著你來挑戰</p>
+                <p>選擇題目數量開始你的挑戰</p>
                 <p>仔細閱讀句子，選擇最適合的詞語填入空格</p>
-                <button id="start-btn" class="btn btn-primary">🚀 開始遊戲</button>
+                
+                <!-- 題目數量選擇 -->
+                <div class="question-count-selection">
+                    <h3>請選擇題目數量：</h3>
+                    <div class="count-options">
+                        <button class="count-btn" data-count="10">
+                            <span class="count-number">10</span>
+                            <span class="count-label">題</span>
+                            <span class="count-desc">快速練習</span>
+                        </button>
+                        <button class="count-btn" data-count="15">
+                            <span class="count-number">15</span>
+                            <span class="count-label">題</span>
+                            <span class="count-desc">適中挑戰</span>
+                        </button>
+                        <button class="count-btn" data-count="20">
+                            <span class="count-number">20</span>
+                            <span class="count-label">題</span>
+                            <span class="count-desc">深度練習</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <button id="start-btn" class="btn btn-primary hidden">🚀 開始遊戲</button>
             </div>
         </div>
 
@@ -59,15 +80,13 @@
                     <button id="next-btn" class="btn btn-secondary hidden">下一題 ➡️</button>
                 </div>
             </div>
-        </div>
-
-        <!-- 遊戲結束畫面 -->
+        </div>        <!-- 遊戲結束畫面 -->
         <div id="end-screen" class="screen hidden">
             <div class="result-card">
                 <h2>🎉 遊戲完成！</h2>
                 <div class="score-display">
                     <p class="score-text">你的成績：</p>
-                    <p class="final-score"><span id="final-score">0</span> / 10</p>
+                    <p class="final-score"><span id="final-score">0</span> / <span id="final-total">0</span></p>
                     <p id="score-message" class="score-message"></p>
                 </div>
                 <div class="result-actions">

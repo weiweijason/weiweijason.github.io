@@ -1,10 +1,12 @@
 // 遊戲狀態管理
 class WordMatchingGame {
     constructor() {
-        this.questions = [];
+        this.allQuestions = []; // 儲存所有題目
+        this.questions = []; // 儲存遊戲中使用的題目
         this.currentQuestionIndex = 0;
         this.score = 0;
         this.totalQuestions = 0;
+        this.selectedQuestionCount = 0; // 用戶選擇的題目數量
         this.gameStarted = false;
         this.gameEnded = false;
         
@@ -24,9 +26,9 @@ class WordMatchingGame {
         this.feedback = document.getElementById('feedback');
         this.feedbackText = document.getElementById('feedback-text');
         this.nextBtn = document.getElementById('next-btn');
-        
-        // 結束畫面元素
+          // 結束畫面元素
         this.finalScore = document.getElementById('final-score');
+        this.finalTotal = document.getElementById('final-total');
         this.scoreMessage = document.getElementById('score-message');
         
         // 按鈕
@@ -34,14 +36,75 @@ class WordMatchingGame {
         this.restartBtn = document.getElementById('restart-btn');
         this.backHomeBtn = document.getElementById('back-home-btn');
         
+        // 題目數量選擇相關
+        this.countBtns = document.querySelectorAll('.count-btn');
+        
         this.initEventListeners();
+        this.loadAllQuestions(); // 頁面載入時就先載入所有題目
     }
-    
-    initEventListeners() {
+      initEventListeners() {
         this.startBtn.addEventListener('click', () => this.startGame());
         this.restartBtn.addEventListener('click', () => this.restartGame());
         this.backHomeBtn.addEventListener('click', () => this.goToHome());
         this.nextBtn.addEventListener('click', () => this.nextQuestion());
+        
+        // 題目數量選擇事件
+        this.countBtns.forEach(btn => {
+            btn.addEventListener('click', () => this.selectQuestionCount(btn));
+        });
+    }
+    
+    // 選擇題目數量
+    selectQuestionCount(selectedBtn) {
+        // 移除所有按鈕的選中狀態
+        this.countBtns.forEach(btn => btn.classList.remove('selected'));
+        
+        // 為選中的按鈕添加選中狀態
+        selectedBtn.classList.add('selected');
+        
+        // 獲取選擇的題目數量
+        this.selectedQuestionCount = parseInt(selectedBtn.dataset.count);
+        
+        // 顯示開始遊戲按鈕
+        this.startBtn.classList.remove('hidden');
+        
+        console.log(`選擇了 ${this.selectedQuestionCount} 題`);
+    }
+    
+    // 載入所有題目（在頁面載入時執行）
+    async loadAllQuestions() {
+        try {
+            const response = await fetch('../data/questions.json');
+            if (!response.ok) {
+                throw new Error('無法載入題目資料');
+            }
+            const data = await response.json();
+            this.allQuestions = data.questions;
+            console.log(`成功載入 ${this.allQuestions.length} 道題目`);
+            return true;
+        } catch (error) {
+            console.error('載入題目失敗:', error);
+            alert('載入題目失敗，請檢查網路連線或稍後再試。');
+            return false;
+        }
+    }
+    
+    // 隨機選擇指定數量的題目
+    selectRandomQuestions(count) {
+        if (this.allQuestions.length < count) {
+            console.warn(`題庫只有 ${this.allQuestions.length} 題，少於要求的 ${count} 題`);
+            count = this.allQuestions.length;
+        }
+        
+        // 深拷貝所有題目並隨機打亂
+        const shuffledQuestions = this.shuffleArray([...this.allQuestions]);
+        
+        // 選取前 count 道題目
+        this.questions = shuffledQuestions.slice(0, count);
+        this.totalQuestions = this.questions.length;
+        
+        console.log(`隨機選擇了 ${this.totalQuestions} 道題目`);
+        return this.questions;
     }
     
     async loadQuestions() {
@@ -72,10 +135,21 @@ class WordMatchingGame {
         }
         return shuffled;
     }
-    
-    async startGame() {
-        const loaded = await this.loadQuestions();
-        if (!loaded) return;
+      async startGame() {
+        // 檢查是否已選擇題目數量
+        if (this.selectedQuestionCount === 0) {
+            alert('請先選擇題目數量！');
+            return;
+        }
+        
+        // 檢查題庫是否已載入
+        if (this.allQuestions.length === 0) {
+            const loaded = await this.loadAllQuestions();
+            if (!loaded) return;
+        }
+        
+        // 從題庫中隨機選擇指定數量的題目
+        this.selectRandomQuestions(this.selectedQuestionCount);
         
         this.gameStarted = true;
         this.gameEnded = false;
@@ -195,9 +269,9 @@ class WordMatchingGame {
         this.showScreen('end');
         this.displayFinalResults();
     }
-    
-    displayFinalResults() {
+      displayFinalResults() {
         this.finalScore.textContent = this.score;
+        this.finalTotal.textContent = this.totalQuestions;
         
         const percentage = (this.score / this.totalQuestions) * 100;
         let message = '';
@@ -216,13 +290,20 @@ class WordMatchingGame {
         
         this.scoreMessage.textContent = message;
     }
-    
-    restartGame() {
+      restartGame() {
         this.currentQuestionIndex = 0;
         this.score = 0;
         this.gameStarted = false;
         this.gameEnded = false;
-        this.startGame();
+        
+        // 重新選擇題目（保持相同數量但重新隨機）
+        if (this.selectedQuestionCount > 0) {
+            this.selectRandomQuestions(this.selectedQuestionCount);
+        }
+        
+        this.showScreen('game');
+        this.updateGameUI();
+        this.displayCurrentQuestion();
     }
     
     goToHome() {
@@ -230,6 +311,12 @@ class WordMatchingGame {
         this.score = 0;
         this.gameStarted = false;
         this.gameEnded = false;
+        this.selectedQuestionCount = 0;
+        
+        // 重置題目數量選擇
+        this.countBtns.forEach(btn => btn.classList.remove('selected'));
+        this.startBtn.classList.add('hidden');
+        
         this.showScreen('start');
     }
     

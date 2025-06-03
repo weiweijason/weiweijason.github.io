@@ -77,6 +77,72 @@ body {
     margin-bottom: 15px;
 }
 
+/* 題目數量選擇樣式 */
+.question-count-selection {
+    margin: 30px 0;
+    padding: 20px;
+    background: #f8fafc;
+    border-radius: 15px;
+    border: 2px solid #e2e8f0;
+}
+
+.question-count-selection h3 {
+    color: #4a5568;
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+}
+
+.count-options {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.count-btn {
+    background: white;
+    border: 3px solid #e2e8f0;
+    border-radius: 15px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.count-btn:hover {
+    border-color: #667eea;
+    background: #f7fafc;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+}
+
+.count-btn.selected {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    border-color: #667eea;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+
+.count-number {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.count-label {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.count-desc {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
 /* 按鈕樣式 */
 .btn {
     padding: 15px 30px;
@@ -379,6 +445,21 @@ body {
     .btn {
         padding: 12px 25px;
         font-size: 1rem;
+    }
+    
+    /* 手機版題目數量選擇 */
+    .count-options {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .count-btn {
+        min-width: 100%;
+        padding: 15px;
+    }
+    
+    .count-number {
+        font-size: 1.5rem;
     }
 }
 
