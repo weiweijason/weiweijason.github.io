@@ -535,37 +535,756 @@ class WordMatchingGame {
         this.showScreen('start');
     }
     
-    showScreen(screenName) {
-        // 隱藏所有畫面
-        this.startScreen.classList.add('hidden');
-        this.gameScreen.classList.add('hidden');
-        this.endScreen.classList.add('hidden');
-        this.loadingScreen.classList.add('hidden');
-        
-        // 顯示指定畫面
-        switch (screenName) {
-            case 'start':
-                this.startScreen.classList.remove('hidden');
-                break;
-            case 'game':
-                this.gameScreen.classList.remove('hidden');
-                break;
-            case 'end':
-                this.endScreen.classList.remove('hidden');
-                break;
-            case 'loading':
-                this.loadingScreen.classList.remove('hidden');
-                break;
+    // ==================== 第二階段功能實現 ====================
+
+    // 每日任務系統
+    class DailyMissionSystem {
+        constructor(game) {
+            this.game = game;
+            this.missions = {
+                questions: { target: 10, progress: 0, reward: 'xp', amount: 50 },
+                accuracy: { target: 80, progress: 0, reward: 'stars', amount: 3 },
+                games: { target: 3, progress: 0, reward: 'mystery', amount: 1 }
+            };
+            this.dailyData = this.loadDailyData();
+            this.initDailyMissionEvents();
+        }
+
+        loadDailyData() {
+            const today = new Date().toDateString();
+            const saved = localStorage.getItem('dailyMissions');
+            let data = saved ? JSON.parse(saved) : {};
+            
+            // 如果是新的一天，重置任務
+            if (data.date !== today) {
+                data = {
+                    date: today,
+                    missions: {
+                        questions: { completed: false, progress: 0 },
+                        accuracy: { completed: false, progress: 0 },
+                        games: { completed: false, progress: 0 }
+                    },
+                    streak: data.date === this.getYesterday() ? (data.streak || 0) + 1 : 1
+                };
+                this.saveDailyData(data);
+            }
+            
+            return data;
+        }
+
+        getYesterday() {
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            return yesterday.toDateString();
+        }
+
+        saveDailyData(data) {
+            localStorage.setItem('dailyMissions', JSON.stringify(data));
+        }
+
+        updateMission(type, value) {
+            if (this.dailyData.missions[type].completed) return;
+
+            this.dailyData.missions[type].progress = value;
+            
+            // 檢查是否完成任務
+            if (this.checkMissionComplete(type)) {
+                this.dailyData.missions[type].completed = true;
+                this.completeMission(type);
+            }
+            
+            this.saveDailyData(this.dailyData);
+            this.updateMissionDisplay();
+        }
+
+        checkMissionComplete(type) {
+            const mission = this.missions[type];
+            const progress = this.dailyData.missions[type].progress;
+            
+            if (type === 'accuracy') {
+                return progress >= mission.target;
+            }
+            return progress >= mission.target;
+        }
+
+        completeMission(type) {
+            const mission = this.missions[type];
+            
+            // 給予獎勵
+            if (mission.reward === 'stars') {
+                this.game.addStars(mission.amount);
+            } else if (mission.reward === 'xp') {
+                // XP系統可以後續擴展
+                console.log(`獲得 ${mission.amount} XP!`);
+            } else if (mission.reward === 'mystery') {
+                // 神秘獎勵 - 額外星星
+                this.game.addStars(5);
+            }
+            
+            // 顯示完成動畫
+            this.showMissionCompleteAnimation(type);
+        }
+
+        showMissionCompleteAnimation(type) {
+            const missionElement = document.getElementById(`mission-${type}`);
+            if (missionElement) {
+                missionElement.classList.add('completed');
+                
+                // 顯示完成特效
+                const celebration = document.createElement('div');
+                celebration.className = 'mission-celebration';
+                celebration.innerHTML = '🎉 任務完成！';
+                missionElement.appendChild(celebration);
+                
+                setTimeout(() => {
+                    celebration.remove();
+                }, 2000);
+            }
+        }
+
+        updateMissionDisplay() {
+            // 更新日期和連續天數
+            document.getElementById('current-date').textContent = 
+                new Date().toLocaleDateString('zh-TW');
+            document.getElementById('learning-streak').textContent = 
+                this.dailyData.streak;
+
+            // 更新各任務進度
+            Object.keys(this.missions).forEach(type => {
+                const mission = this.missions[type];
+                const dailyMission = this.dailyData.missions[type];
+                const progress = dailyMission.progress;
+                const target = mission.target;
+                
+                const fillElement = document.getElementById(`mission-${type}-fill`);
+                const textElement = document.getElementById(`mission-${type}-text`);
+                const missionElement = document.getElementById(`mission-${type}`);
+                
+                if (fillElement && textElement) {
+                    if (type === 'accuracy') {
+                        const percentage = Math.min(progress, target);
+                        fillElement.style.width = `${(percentage / target) * 100}%`;
+                        textElement.textContent = `${percentage.toFixed(1)}%`;
+                    } else {
+                        fillElement.style.width = `${Math.min((progress / target) * 100, 100)}%`;
+                        textElement.textContent = `${progress} / ${target}`;
+                    }
+                    
+                    if (dailyMission.completed && missionElement) {
+                        missionElement.classList.add('completed');
+                    }
+                }
+            });
+        }
+
+        initDailyMissionEvents() {
+            document.getElementById('back-to-game-btn')?.addEventListener('click', () => {
+                this.game.showScreen('start');
+            });
         }
     }
-    
-    showLoading() {
-        this.showScreen('loading');
+
+    // 錯題複習系統
+    class ReviewSystem {
+        constructor(game) {
+            this.game = game;
+            this.wrongQuestions = this.loadWrongQuestions();
+            this.masteredQuestions = this.loadMasteredQuestions();
+            this.initReviewEvents();
+        }
+
+        loadWrongQuestions() {
+            const saved = localStorage.getItem('wrongQuestions');
+            return saved ? JSON.parse(saved) : [];
+        }
+
+        loadMasteredQuestions() {
+            const saved = localStorage.getItem('masteredQuestions');
+            return saved ? JSON.parse(saved) : [];
+        }
+
+        saveWrongQuestions() {
+            localStorage.setItem('wrongQuestions', JSON.stringify(this.wrongQuestions));
+        }
+
+        saveMasteredQuestions() {
+            localStorage.setItem('masteredQuestions', JSON.stringify(this.masteredQuestions));
+        }
+
+        addWrongQuestion(question, userAnswer, correctAnswer) {
+            const existing = this.wrongQuestions.find(wq => wq.question === question);
+            
+            if (existing) {
+                existing.mistakes++;
+                existing.lastMistake = new Date().toISOString();
+            } else {
+                this.wrongQuestions.push({
+                    question,
+                    userAnswer,
+                    correctAnswer,
+                    mistakes: 1,
+                    firstMistake: new Date().toISOString(),
+                    lastMistake: new Date().toISOString()
+                });
+            }
+            
+            this.saveWrongQuestions();
+            this.updateReviewDisplay();
+        }
+
+        markQuestionMastered(question) {
+            // 移除錯題列表
+            this.wrongQuestions = this.wrongQuestions.filter(wq => wq.question !== question);
+            
+            // 添加到已掌握列表
+            if (!this.masteredQuestions.includes(question)) {
+                this.masteredQuestions.push(question);
+            }
+            
+            this.saveWrongQuestions();
+            this.saveMasteredQuestions();
+            this.updateReviewDisplay();
+        }
+
+        getRecentWrongQuestions(days = 7) {
+            const cutoff = new Date();
+            cutoff.setDate(cutoff.getDate() - days);
+            
+            return this.wrongQuestions.filter(wq => 
+                new Date(wq.lastMistake) > cutoff
+            );
+        }
+
+        startReviewMode(questions = null) {
+            const reviewQuestions = questions || this.wrongQuestions;
+            
+            if (reviewQuestions.length === 0) {
+                alert('沒有需要複習的題目！');
+                return;
+            }
+
+            // 轉換為遊戲格式
+            const gameQuestions = reviewQuestions.map(wq => {
+                // 找到原始題目
+                const originalQuestion = this.game.allQuestions.find(q => 
+                    q.question === wq.question
+                );
+                return originalQuestion;
+            }).filter(q => q); // 過濾掉找不到的題目
+
+            if (gameQuestions.length === 0) {
+                alert('找不到對應的題目資料！');
+                return;
+            }
+
+            // 設置複習模式
+            this.game.questions = gameQuestions;
+            this.game.totalQuestions = gameQuestions.length;
+            this.game.currentQuestionIndex = 0;
+            this.game.score = 0;
+            this.game.gameStars = 0;
+            this.game.isReviewMode = true;
+            
+            this.game.showScreen('game');
+            this.game.displayCurrentQuestion();
+        }
+
+        updateReviewDisplay() {
+            document.getElementById('wrong-questions-count').textContent = 
+                this.wrongQuestions.length;
+            document.getElementById('mastered-questions-count').textContent = 
+                this.masteredQuestions.length;
+
+            // 更新錯題列表
+            const listContainer = document.getElementById('wrong-questions-list');
+            if (listContainer) {
+                listContainer.innerHTML = '';
+                
+                if (this.wrongQuestions.length === 0) {
+                    listContainer.innerHTML = '<p style="text-align: center; color: rgba(255,255,255,0.6);">太棒了！沒有需要複習的題目！</p>';
+                    return;
+                }
+                
+                this.wrongQuestions.forEach((wq, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'wrong-question-item';
+                    item.innerHTML = `
+                        <div class="question-text">${wq.question}</div>
+                        <div class="mistake-count">錯誤 ${wq.mistakes} 次</div>
+                        <button class="review-question-btn" onclick="reviewSystem.reviewSingleQuestion(${index})">
+                            複習
+                        </button>
+                    `;
+                    listContainer.appendChild(item);
+                });
+            }
+        }
+
+        reviewSingleQuestion(index) {
+            const wq = this.wrongQuestions[index];
+            const originalQuestion = this.game.allQuestions.find(q => 
+                q.question === wq.question
+            );
+            
+            if (originalQuestion) {
+                this.startReviewMode([wq]);
+            }
+        }
+
+        initReviewEvents() {
+            document.getElementById('review-all-btn')?.addEventListener('click', () => {
+                this.startReviewMode();
+            });
+
+            document.getElementById('review-recent-btn')?.addEventListener('click', () => {
+                const recentQuestions = this.getRecentWrongQuestions();
+                this.startReviewMode(recentQuestions);
+            });
+
+            document.getElementById('back-to-game-btn-2')?.addEventListener('click', () => {
+                this.game.showScreen('start');
+            });
+        }
     }
-    
-    hideLoading() {
-        // 載入完成後不自動切換畫面，讓呼叫者決定
+
+    // 學習統計系統
+    class StatisticsSystem {
+        constructor(game) {
+            this.game = game;
+            this.stats = this.loadStats();
+            this.initStatsEvents();
+        }
+
+        loadStats() {
+            const saved = localStorage.getItem('gameStatistics');
+            return saved ? JSON.parse(saved) : {
+                totalQuestionsAnswered: 0,
+                totalCorrectAnswers: 0,
+                totalGamesPlayed: 0,
+                totalStudyTime: 0, // 分鐘
+                weeklyData: this.initWeeklyData()
+            };
+        }
+
+        initWeeklyData() {
+            const weekData = {};
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                const dateStr = date.toDateString();
+                weekData[dateStr] = {
+                    questions: 0,
+                    correct: 0,
+                    games: 0,
+                    studyTime: 0
+                };
+            }
+            return weekData;
+        }
+
+        saveStats() {
+            localStorage.setItem('gameStatistics', JSON.stringify(this.stats));
+        }
+
+        recordGameSession(totalQuestions, correctAnswers, studyTime) {
+            this.stats.totalQuestionsAnswered += totalQuestions;
+            this.stats.totalCorrectAnswers += correctAnswers;
+            this.stats.totalGamesPlayed++;
+            this.stats.totalStudyTime += studyTime;
+
+            // 記錄今日數據
+            const today = new Date().toDateString();
+            if (!this.stats.weeklyData[today]) {
+                this.stats.weeklyData[today] = { questions: 0, correct: 0, games: 0, studyTime: 0 };
+            }
+            
+            this.stats.weeklyData[today].questions += totalQuestions;
+            this.stats.weeklyData[today].correct += correctAnswers;
+            this.stats.weeklyData[today].games++;
+            this.stats.weeklyData[today].studyTime += studyTime;
+
+            // 保持只有最近7天的數據
+            this.cleanOldWeeklyData();
+            
+            this.saveStats();
+            this.updateStatsDisplay();
+        }
+
+        cleanOldWeeklyData() {
+            const sevenDaysAgo = new Date();
+            sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+            
+            Object.keys(this.stats.weeklyData).forEach(dateStr => {
+                if (new Date(dateStr) < sevenDaysAgo) {
+                    delete this.stats.weeklyData[dateStr];
+                }
+            });
+        }
+
+        updateStatsDisplay() {
+            // 計算總體正確率
+            const accuracy = this.stats.totalQuestionsAnswered > 0 ? 
+                (this.stats.totalCorrectAnswers / this.stats.totalQuestionsAnswered * 100).toFixed(1) : '0';
+            
+            document.getElementById('overall-accuracy').textContent = `${accuracy}%`;
+            document.getElementById('total-questions-answered').textContent = this.stats.totalQuestionsAnswered;
+            document.getElementById('total-games-played').textContent = this.stats.totalGamesPlayed;
+            document.getElementById('total-study-time').textContent = `${this.stats.totalStudyTime}分`;
+
+            // 更新週統計圖表
+            this.updateWeekChart();
+        }
+
+        updateWeekChart() {
+            const chartContainer = document.getElementById('week-chart');
+            if (!chartContainer) return;
+
+            chartContainer.innerHTML = '';
+            
+            const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
+            const maxQuestions = Math.max(...Object.values(this.stats.weeklyData).map(d => d.questions), 1);
+
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                const dateStr = date.toDateString();
+                const dayData = this.stats.weeklyData[dateStr] || { questions: 0 };
+                
+                const dayBar = document.createElement('div');
+                dayBar.className = 'day-bar';
+                
+                const barHeight = (dayData.questions / maxQuestions) * 100;
+                
+                dayBar.innerHTML = `
+                    <div class="bar" style="height: ${Math.max(barHeight, 10)}%;" title="${dayData.questions} 題"></div>
+                    <div class="day-label">${weekDays[date.getDay()]}</div>
+                `;
+                
+                chartContainer.appendChild(dayBar);
+            }
+        }
+
+        initStatsEvents() {
+            document.getElementById('back-to-game-btn-3')?.addEventListener('click', () => {
+                this.game.showScreen('start');
+            });
+        }
     }
+
+    // 成就徽章系統
+    class BadgeSystem {
+        constructor(game) {
+            this.game = game;
+            this.badges = this.initBadges();
+            this.unlockedBadges = this.loadUnlockedBadges();
+            this.initBadgeEvents();
+        }
+
+        initBadges() {
+            return [
+                {
+                    id: 'first_star',
+                    icon: '⭐',
+                    title: '初學者',
+                    description: '獲得第一顆星星',
+                    condition: () => this.game.totalStars >= 1
+                },
+                {
+                    id: 'star_collector',
+                    icon: '🌟',
+                    title: '星星收集家',
+                    description: '累積 50 顆星星',
+                    condition: () => this.game.totalStars >= 50
+                },
+                {
+                    id: 'level_up',
+                    icon: '📈',
+                    title: '等級提升',
+                    description: '達到等級 5',
+                    condition: () => this.game.currentLevel >= 5
+                },
+                {
+                    id: 'perfect_game',
+                    icon: '💯',
+                    title: '完美表現',
+                    description: '一局遊戲全部答對',
+                    condition: () => this.game.lastGamePerfect === true
+                },
+                {
+                    id: 'question_master',
+                    icon: '📚',
+                    title: '題目大師',
+                    description: '累積答對 100 題',
+                    condition: () => this.game.statisticsSystem?.stats.totalCorrectAnswers >= 100
+                },
+                {
+                    id: 'daily_learner',
+                    icon: '📅',
+                    title: '每日學習者',
+                    description: '連續學習 7 天',
+                    condition: () => this.game.dailyMissionSystem?.dailyData.streak >= 7
+                },
+                {
+                    id: 'reviewer',
+                    icon: '🔄',
+                    title: '複習達人',
+                    description: '掌握 10 個錯題',
+                    condition: () => this.game.reviewSystem?.masteredQuestions.length >= 10
+                },
+                {
+                    id: 'speed_demon',
+                    icon: '⚡',
+                    title: '閃電俠',
+                    description: '在 30 秒內完成 10 題',
+                    condition: () => this.game.lastGameTime <= 30 && this.game.lastGameQuestions >= 10
+                },
+                {
+                    id: 'marathon',
+                    icon: '🏃',
+                    title: '馬拉松選手',
+                    description: '累積學習 60 分鐘',
+                    condition: () => this.game.statisticsSystem?.stats.totalStudyTime >= 60
+                },
+                {
+                    id: 'accuracy_expert',
+                    icon: '🎯',
+                    title: '精準專家',
+                    description: '總體正確率達 90%',
+                    condition: () => {
+                        const stats = this.game.statisticsSystem?.stats;
+                        if (!stats || stats.totalQuestionsAnswered === 0) return false;
+                        return (stats.totalCorrectAnswers / stats.totalQuestionsAnswered) >= 0.9;
+                    }
+                },
+                {
+                    id: 'game_master',
+                    icon: '👑',
+                    title: '遊戲大師',
+                    description: '完成 50 場遊戲',
+                    condition: () => this.game.statisticsSystem?.stats.totalGamesPlayed >= 50
+                },
+                {
+                    id: 'star_legend',
+                    icon: '🌠',
+                    title: '星星傳說',
+                    description: '累積 200 顆星星',
+                    condition: () => this.game.totalStars >= 200
+                }
+            ];
+        }
+
+        loadUnlockedBadges() {
+            const saved = localStorage.getItem('unlockedBadges');
+            return saved ? JSON.parse(saved) : [];
+        }
+
+        saveUnlockedBadges() {
+            localStorage.setItem('unlockedBadges', JSON.stringify(this.unlockedBadges));
+        }
+
+        checkNewBadges() {
+            let newBadges = [];
+            
+            this.badges.forEach(badge => {
+                if (!this.unlockedBadges.includes(badge.id) && badge.condition()) {
+                    this.unlockedBadges.push(badge.id);
+                    newBadges.push(badge);
+                }
+            });
+            
+            if (newBadges.length > 0) {
+                this.saveUnlockedBadges();
+                this.showNewBadgeAnimation(newBadges);
+            }
+            
+            this.updateBadgeDisplay();
+        }
+
+        showNewBadgeAnimation(newBadges) {
+            newBadges.forEach((badge, index) => {
+                setTimeout(() => {
+                    this.game.showMessage(`🎉 獲得新徽章：${badge.icon} ${badge.title}！`, 'success');
+                }, index * 1000);
+            });
+        }
+
+        updateBadgeDisplay() {
+            const badgesGrid = document.getElementById('badges-grid');
+            const earnedCount = document.getElementById('earned-badges-count');
+            const totalCount = document.getElementById('total-badges-count');
+            
+            if (earnedCount) earnedCount.textContent = this.unlockedBadges.length;
+            if (totalCount) totalCount.textContent = this.badges.length;
+            
+            if (!badgesGrid) return;
+            
+            badgesGrid.innerHTML = '';
+            
+            this.badges.forEach(badge => {
+                const isUnlocked = this.unlockedBadges.includes(badge.id);
+                const progress = this.getBadgeProgress(badge);
+                
+                const badgeElement = document.createElement('div');
+                badgeElement.className = `badge-item ${isUnlocked ? 'earned' : 'locked'}`;
+                
+                badgeElement.innerHTML = `
+                    <div class="badge-icon">${badge.icon}</div>
+                    <div class="badge-title">${badge.title}</div>
+                    <div class="badge-description">${badge.description}</div>
+                    ${!isUnlocked ? `<div class="badge-progress">${progress}</div>` : ''}
+                `;
+                
+                badgesGrid.appendChild(badgeElement);
+            });
+        }
+
+        getBadgeProgress(badge) {
+            // 根據徽章類型返回進度信息
+            switch (badge.id) {
+                case 'star_collector':
+                    return `${this.game.totalStars} / 50`;
+                case 'level_up':
+                    return `等級 ${this.game.currentLevel} / 5`;
+                case 'question_master':
+                    const correct = this.game.statisticsSystem?.stats.totalCorrectAnswers || 0;
+                    return `${correct} / 100`;
+                case 'daily_learner':
+                    const streak = this.game.dailyMissionSystem?.dailyData.streak || 0;
+                    return `${streak} / 7 天`;
+                case 'reviewer':
+                    const mastered = this.game.reviewSystem?.masteredQuestions.length || 0;
+                    return `${mastered} / 10`;
+                case 'marathon':
+                    const studyTime = this.game.statisticsSystem?.stats.totalStudyTime || 0;
+                    return `${studyTime} / 60 分鐘`;
+                case 'game_master':
+                    const games = this.game.statisticsSystem?.stats.totalGamesPlayed || 0;
+                    return `${games} / 50`;
+                case 'star_legend':
+                    return `${this.game.totalStars} / 200`;
+                default:
+                    return '尚未解鎖';
+            }
+        }
+
+        initBadgeEvents() {
+            document.getElementById('back-to-game-btn-4')?.addEventListener('click', () => {
+                this.game.showScreen('start');
+            });
+        }
+    }
+
+    // 在遊戲類中添加擴展方法
+    WordMatchingGame.prototype.initPhase2Systems = function() {
+        this.dailyMissionSystem = new DailyMissionSystem(this);
+        this.reviewSystem = new ReviewSystem(this);
+        this.statisticsSystem = new StatisticsSystem(this);
+        this.badgeSystem = new BadgeSystem(this);
+        
+        // 初始化導航事件
+        this.initNavigationEvents();
+        
+        // 初始化顯示
+        this.updateAllDisplays();
+    };
+
+    WordMatchingGame.prototype.initNavigationEvents = function() {
+        // 導航按鈕事件
+        document.getElementById('nav-game')?.addEventListener('click', () => this.showScreen('start'));
+        document.getElementById('nav-daily')?.addEventListener('click', () => this.showScreen('daily'));
+        document.getElementById('nav-review')?.addEventListener('click', () => this.showScreen('review'));
+        document.getElementById('nav-stats')?.addEventListener('click', () => this.showScreen('stats'));
+        document.getElementById('nav-badges')?.addEventListener('click', () => this.showScreen('badges'));
+    };
+
+    WordMatchingGame.prototype.showScreen = function(screenName) {
+        // 隱藏所有畫面
+        const screens = ['start', 'game', 'end', 'loading', 'daily', 'review', 'stats', 'badges'];
+        screens.forEach(screen => {
+            const element = document.getElementById(`${screen}-screen`);
+            if (element) {
+                element.classList.add('hidden');
+            }
+        });
+        
+        // 顯示指定畫面
+        const targetScreen = document.getElementById(`${screenName}-screen`);
+        if (targetScreen) {
+            targetScreen.classList.remove('hidden');
+        }
+        
+        // 更新對應畫面的顯示
+        this.updateScreenDisplay(screenName);
+    };
+
+    WordMatchingGame.prototype.updateScreenDisplay = function(screenName) {
+        switch (screenName) {
+            case 'daily':
+                this.dailyMissionSystem?.updateMissionDisplay();
+                break;
+            case 'review':
+                this.reviewSystem?.updateReviewDisplay();
+                break;
+            case 'stats':
+                this.statisticsSystem?.updateStatsDisplay();
+                break;
+            case 'badges':
+                this.badgeSystem?.updateBadgeDisplay();
+                break;
+        }
+    };
+
+    WordMatchingGame.prototype.updateAllDisplays = function() {
+        this.dailyMissionSystem?.updateMissionDisplay();
+        this.reviewSystem?.updateReviewDisplay();
+        this.statisticsSystem?.updateStatsDisplay();
+        this.badgeSystem?.updateBadgeDisplay();
+    };
+
+    // 擴展遊戲結束邏輯以整合第二階段功能
+    WordMatchingGame.prototype.extendedEndGame = function() {
+        const studyTime = Math.round((Date.now() - this.gameStartTime) / 1000 / 60); // 分鐘
+        
+        // 記錄統計數據
+        this.statisticsSystem?.recordGameSession(this.totalQuestions, this.score, studyTime);
+        
+        // 更新每日任務
+        this.updateDailyMissions();
+        
+        // 檢查新徽章
+        this.badgeSystem?.checkNewBadges();
+        
+        // 記錄遊戲表現用於徽章檢查
+        this.lastGamePerfect = (this.score === this.totalQuestions);
+        this.lastGameTime = (Date.now() - this.gameStartTime) / 1000; // 秒
+        this.lastGameQuestions = this.totalQuestions;
+    };
+
+    WordMatchingGame.prototype.updateDailyMissions = function() {
+        if (!this.dailyMissionSystem) return;
+        
+        // 更新答題數任務
+        const currentQuestions = this.dailyMissionSystem.dailyData.missions.questions.progress + this.totalQuestions;
+        this.dailyMissionSystem.updateMission('questions', currentQuestions);
+        
+        // 更新正確率任務
+        const totalAnswered = this.statisticsSystem?.stats.totalQuestionsAnswered || 0;
+        const totalCorrect = this.statisticsSystem?.stats.totalCorrectAnswers || 0;
+        const accuracy = totalAnswered > 0 ? (totalCorrect / totalAnswered * 100) : 0;
+        this.dailyMissionSystem.updateMission('accuracy', accuracy);
+        
+        // 更新遊戲場次任務
+        const currentGames = this.dailyMissionSystem.dailyData.missions.games.progress + 1;
+        this.dailyMissionSystem.updateMission('games', currentGames);
+    };
+
+    WordMatchingGame.prototype.handleWrongAnswer = function(question, userAnswer, correctAnswer) {
+        // 添加到錯題系統
+        this.reviewSystem?.addWrongQuestion(question, userAnswer, correctAnswer);
+    };
+
+    // 為全局作用域添加系統引用
+    let reviewSystem, dailyMissionSystem, statisticsSystem, badgeSystem;
 }
 
 // 頁面載入完成後初始化遊戲

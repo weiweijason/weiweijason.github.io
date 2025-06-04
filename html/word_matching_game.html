@@ -12,6 +12,15 @@
             <h1>🎮 語文詞語配對遊戲</h1>
             <p>選擇正確的詞語來完成句子吧！</p>
             
+            <!-- 功能導航選單 -->
+            <nav class="feature-nav">
+                <button id="nav-game" class="nav-btn active">🎮 遊戲</button>
+                <button id="nav-daily" class="nav-btn">📅 每日任務</button>
+                <button id="nav-review" class="nav-btn">🥋 錯題道場</button>
+                <button id="nav-stats" class="nav-btn">📊 學習統計</button>
+                <button id="nav-badges" class="nav-btn">🏅 成就收集</button>
+            </nav>
+            
             <!-- 用戶等級和星星系統 -->
             <div class="user-stats">
                 <div class="level-display">
@@ -168,8 +177,174 @@
                 <p>載入題目中...</p>
             </div>
         </div>
+
+        <!-- 每日任務畫面 -->
+        <div id="daily-screen" class="screen hidden">
+            <div class="daily-missions-card">
+                <h2>📅 今日任務</h2>
+                <div class="daily-date">
+                    <span id="current-date"></span>
+                    <span class="streak-info">連續學習 <span id="learning-streak">0</span> 天</span>
+                </div>
+                
+                <div class="missions-container">
+                    <div class="mission-item" id="mission-questions">
+                        <div class="mission-icon">📝</div>
+                        <div class="mission-content">
+                            <h4>答題挑戰</h4>
+                            <p>完成 10 道題目</p>
+                            <div class="mission-progress">
+                                <div class="progress-bar-small">
+                                    <div id="mission-questions-fill" class="progress-fill-small"></div>
+                                </div>
+                                <span id="mission-questions-text">0 / 10</span>
+                            </div>
+                        </div>
+                        <div class="mission-reward">🏆 +50 XP</div>
+                    </div>
+                    
+                    <div class="mission-item" id="mission-accuracy">
+                        <div class="mission-icon">🎯</div>
+                        <div class="mission-content">
+                            <h4>準確度大師</h4>
+                            <p>答題正確率達到 80%</p>
+                            <div class="mission-progress">
+                                <div class="progress-bar-small">
+                                    <div id="mission-accuracy-fill" class="progress-fill-small"></div>
+                                </div>
+                                <span id="mission-accuracy-text">0%</span>
+                            </div>
+                        </div>
+                        <div class="mission-reward">⭐ +3 星星</div>
+                    </div>
+                    
+                    <div class="mission-item" id="mission-games">
+                        <div class="mission-icon">🎮</div>
+                        <div class="mission-content">
+                            <h4>學習達人</h4>
+                            <p>完成 3 場遊戲</p>
+                            <div class="mission-progress">
+                                <div class="progress-bar-small">
+                                    <div id="mission-games-fill" class="progress-fill-small"></div>
+                                </div>
+                                <span id="mission-games-text">0 / 3</span>
+                            </div>
+                        </div>
+                        <div class="mission-reward">🎁 神秘獎勵</div>
+                    </div>
+                </div>
+                
+                <button id="back-to-game-btn" class="btn btn-primary">回到遊戲</button>
+            </div>
+        </div>
+
+        <!-- 錯題道場畫面 -->
+        <div id="review-screen" class="screen hidden">
+            <div class="review-dojo-card">
+                <h2>🥋 錯題道場</h2>
+                <p>複習之前答錯的題目，讓你的武功更上一層樓！</p>
+                
+                <div class="review-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="wrong-questions-count">0</span>
+                        <span class="stat-label">待複習題目</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="mastered-questions-count">0</span>
+                        <span class="stat-label">已掌握題目</span>
+                    </div>
+                </div>
+                
+                <div class="review-options">
+                    <button id="review-all-btn" class="btn btn-primary">
+                        📚 複習全部錯題
+                    </button>
+                    <button id="review-recent-btn" class="btn btn-secondary">
+                        🔥 複習最近錯題
+                    </button>
+                </div>
+                
+                <div class="review-list" id="review-list">
+                    <h4>錯題列表：</h4>
+                    <div id="wrong-questions-list">
+                        <!-- 錯題會動態生成 -->
+                    </div>
+                </div>
+                
+                <button id="back-to-game-btn-2" class="btn btn-tertiary">回到遊戲</button>
+            </div>
+        </div>
+
+        <!-- 學習統計畫面 -->
+        <div id="stats-screen" class="screen hidden">
+            <div class="stats-dashboard-card">
+                <h2>📊 學習統計</h2>
+                
+                <div class="stats-overview">
+                    <div class="stat-card">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="overall-accuracy">0%</span>
+                            <span class="stat-title">總體正確率</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">📝</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="total-questions-answered">0</span>
+                            <span class="stat-title">總答題數</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">🎮</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="total-games-played">0</span>
+                            <span class="stat-title">遊戲場次</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">⏰</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="total-study-time">0分</span>
+                            <span class="stat-title">學習時間</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stats-charts">
+                    <div class="chart-section">
+                        <h4>📈 最近7天學習情況</h4>
+                        <div class="week-chart" id="week-chart">
+                            <!-- 7天圖表會動態生成 -->
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="back-to-game-btn-3" class="btn btn-primary">回到遊戲</button>
+            </div>
+        </div>
+
+        <!-- 成就徽章畫面 -->
+        <div id="badges-screen" class="screen hidden">
+            <div class="badges-collection-card">
+                <h2>🏅 成就收集</h2>
+                <p>收集徽章，見證你的學習成長！</p>
+                
+                <div class="achievement-progress">
+                    <span>已獲得 <span id="earned-badges-count">0</span> / <span id="total-badges-count">12</span> 個徽章</span>
+                </div>
+                
+                <div class="badges-grid" id="badges-grid">
+                    <!-- 徽章會動態生成 -->
+                </div>
+                  <button id="back-to-game-btn-4" class="btn btn-primary">回到遊戲</button>
+            </div>
+        </div>
     </div>
 
-    <script src="../js/word_matching_game.js"></script>
+    <script src="../js/word_matching_game_v2.js"></script>
 </body>
 </html>
