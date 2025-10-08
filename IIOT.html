@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI-driven SOC/NOC Assistant – Modular Security Automation Framework</title>
+  <meta name="description" content="Presentation: AI-driven SOC/NOC Assistant – Modular Security Automation Framework" />
+  <!-- Reveal.js CDN (works on GitHub Pages) -->
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@5/dist/reveal.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@5/dist/theme/black.css" id="theme">
+  <style>
+    :root { --brand: #4fd1c5; --muted: #94a3b8; }
+    .reveal .slides { text-align: left; }
+    .reveal h1, .reveal h2, .reveal h3 { color: var(--brand); }
+    .reveal section p, .reveal section li { font-size: 0.95em; line-height: 1.5; }
+    .tag { display:inline-block; padding:.25rem .5rem; border-radius:9999px; background:#0ea5a5; color:#002b2b; font-weight:700; font-size:.55em; letter-spacing:.06em; }
+    .muted { color: var(--muted); }
+    pre code { font-size: .8em; }
+    .footer { position: absolute; left: 0; right: 0; bottom: 10px; font-size: 14px; color: #a3a3a3; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- 封面 -->
+      <section data-transition="fade">
+        <h1>AI-driven SOC/NOC Assistant</h1>
+        <h3 class="muted">Modular Security Automation Framework</h3>
+        <p><span class="tag">Vendor-neutral</span> <span class="tag">FastAPI / Flask</span> <span class="tag">Bootstrap 5</span> <span class="tag">Embeddable UI</span></p>
+      </section>
+
+      <!-- 背景介紹 -->
+      <section>
+        <h2>Background</h2>
+        <ul>
+          <li>Modern SOC/NOC teams drown in alerts and heterogeneous logs.</li>
+          <li>Commercial tools (e.g., SOAR, vendor suites) can be tightly coupled to specific hardware.</li>
+          <li><strong>Goal:</strong> Deliver a lightweight, software-only assistant that runs at the application layer.</li>
+        </ul>
+      </section>
+
+      <!-- 目標 -->
+      <section>
+        <h2>Objectives</h2>
+        <ol>
+          <li><strong>Modular Assistant (Backend)</strong>: FastAPI module with APIs for log ingestion, incident summarization, playbook generation.</li>
+          <li><strong>Lightweight Frontend</strong>: Bootstrap 5 dashboards + chatbot UI, standalone or embeddable.</li>
+          <li><strong>Threat Intel Integration</strong>: Reputation lookups (VirusTotal, AbuseIPDB) via extendable connectors.</li>
+          <li><strong>Seamless Embedding</strong>: Mountable in Flask, FastAPI, or npm-based apps.</li>
+        </ol>
+      </section>
+
+      <!-- 選擇這個主題的原因 -->
+      <section>
+        <h2>Why This Topic</h2>
+        <ul>
+          <li><strong>Vendor-neutral</strong> AI automation without proprietary appliances.</li>
+          <li><strong>Bridges AI &amp; Cybersecurity</strong> through NLP summarization for triage.</li>
+          <li><strong>Practical &amp; Deployable</strong>: Works with popular frameworks.</li>
+          <li><strong>Scalable Demonstration</strong>: Python package/npm module for reusability.</li>
+        </ul>
+      </section>
+
+      <!-- 架構概覽 -->
+      <section>
+        <h2>Architecture Overview</h2>
+        <ul>
+          <li><strong>Core API (FastAPI)</strong>: /ingest, /summarize, /playbooks, /intel/*</li>
+          <li><strong>Frontend</strong>: Bootstrap 5 UI (chat + dashboards), embeddable widget.</li>
+          <li><strong>Connector Layer</strong>: VirusTotal, AbuseIPDB, future TI feeds.</li>
+          <li><strong>Packaging</strong>: <code>ai_soc_module</code> (pip) + npm widget.</li>
+        </ul>
+      </section>
+
+      <!-- 嵌入範例 -->
+      <section>
+        <h2>Embedding Example</h2>
+        <pre><code class="language-python"># FastAPI integration
+from ai_soc_module import SOCAssistant
+from fastapi import FastAPI
+
+app = FastAPI()
+app.include_router(SOCAssistant.router, prefix="/soc")
+</code></pre>
+        <pre><code class="language-html">&lt;!-- Embeddable widget --&gt;
+&lt;div id="soc-assistant" data-endpoint="/soc"&gt;&lt;/div&gt;
+&lt;script src="/static/soc-widget.js"&gt;&lt;/script&gt;
+</code></pre>
+      </section>
+
+      <!-- 實際應用場景 -->
+      <section>
+        <h2>Real-world Scenarios</h2>
+        <ul>
+          <li><strong>Incident Summarization</strong>: condense 100+ alerts into prioritized summaries.</li>
+          <li><strong>Automated Playbooks</strong>: output JSON/YAML templates for remediation.</li>
+          <li><strong>Threat Enrichment</strong>: IP/domain lookups + risk scoring + recommendations.</li>
+          <li><strong>Pluggable Integration</strong>: drop into existing Flask/FastAPI dashboards.</li>
+        </ul>
+      </section>
+
+      <!-- 深入研究 -->
+      <section>
+        <h2>Deep-dive for Final Report</h2>
+        <ul>
+          <li>Evaluate summarization accuracy &amp; models.</li>
+          <li>SIEM/SOAR integration standards.</li>
+          <li>Playbook interoperability (Ansible, SOAR).</li>
+          <li>Dockerized deployment, scalability tests.</li>
+          <li>UX comparison: chatbot vs. dashboard.</li>
+        </ul>
+      </section>
+
+
+      <!-- 最終交付成果 -->
+      <section>
+        <h2>Final Deliverable (Demo)</h2>
+        <ul>
+          <li><code>ai_soc_module/</code> Python package (FastAPI/Flask)</li>
+          <li>Web admin interface (Bootstrap 5), embeddable</li>
+          <li>Integration examples (Flask, FastAPI, npm frontend)</li>
+          <li>Documentation: install, API, integrations</li>
+          <li>Live flow: Ingest ➜ AI Summarize ➜ Playbook ➜ Dashboard</li>
+        </ul>
+      </section>
+
+      <!-- 影響力 -->
+      <section>
+        <h2>Impact</h2>
+        <ul>
+          <li>Reduce response time via automated triage</li>
+          <li>Augment junior analysts with AI recommendations</li>
+          <li>Lower cost vs. appliance-heavy stacks</li>
+          <li>Flexible across Flask, FastAPI, npm</li>
+        </ul>
+      </section>
+
+      <!-- 結語 -->
+      <section>
+        <h2>Thank You</h2>
+        <p class="muted">AI-driven SOC/NOC Assistant</p>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/reveal.js@5/dist/reveal.js"></script>
+  <script>
+    // Initialize Reveal
+    const deck = new Reveal({ 
+      hash: true, 
+      slideNumber: true, 
+      transition: 'fade',
+      controls: true,
+      progress: true,
+      center: false,
+      keyboard: true,
+      overview: true,
+      loop: false,
+      embedded: false
+    });
+    deck.initialize();
+  </script>
+</body>
+</html>
