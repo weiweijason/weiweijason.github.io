@@ -9,14 +9,135 @@
   <link rel="stylesheet" href="https://unpkg.com/reveal.js@5/dist/reveal.css">
   <link rel="stylesheet" href="https://unpkg.com/reveal.js@5/dist/theme/black.css" id="theme">
   <style>
-    :root { --brand: #4fd1c5; --muted: #94a3b8; }
-    .reveal .slides { text-align: left; }
-    .reveal h1, .reveal h2, .reveal h3 { color: var(--brand); }
-    .reveal section p, .reveal section li { font-size: 0.95em; line-height: 1.5; }
-    .tag { display:inline-block; padding:.25rem .5rem; border-radius:9999px; background:#0ea5a5; color:#002b2b; font-weight:700; font-size:.55em; letter-spacing:.06em; }
-    .muted { color: var(--muted); }
-    pre code { font-size: .8em; }
-    .footer { position: absolute; left: 0; right: 0; bottom: 10px; font-size: 14px; color: #a3a3a3; text-align: center; }
+    :root { 
+      --brand: #4fd1c5; 
+      --muted: #94a3b8; 
+      --accent: #0ea5a5;
+      --bg-dark: #1a1a1a;
+      --text-light: #f8fafc;
+    }
+    
+    .reveal .slides { 
+      text-align: left; 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .reveal h1, .reveal h2, .reveal h3 { 
+      color: var(--brand); 
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+    
+    .reveal h1 { 
+      font-size: 2.2em; 
+      text-align: center;
+      margin-bottom: 0.3rem;
+    }
+    
+    .reveal h2 { 
+      font-size: 1.6em; 
+      border-bottom: 2px solid var(--brand);
+      padding-bottom: 0.3rem;
+    }
+    
+    .reveal section p, .reveal section li { 
+      font-size: 0.9em; 
+      line-height: 1.4; 
+      margin-bottom: 0.5rem;
+      color: var(--text-light);
+    }
+    
+    .reveal section ul, .reveal section ol {
+      margin-left: 1rem;
+    }
+    
+    .reveal section li {
+      margin-bottom: 0.4rem;
+      padding-left: 0.3rem;
+    }
+    
+    .tag { 
+      display: inline-block; 
+      padding: 0.4rem 0.8rem; 
+      border-radius: 20px; 
+      background: linear-gradient(135deg, var(--accent), var(--brand)); 
+      color: #ffffff; 
+      font-weight: 600; 
+      font-size: 0.7em; 
+      letter-spacing: 0.05em; 
+      margin: 0.2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    
+    .muted { 
+      color: var(--muted); 
+      font-style: italic;
+      text-align: center;
+      font-size: 1.2em;
+    }
+    
+    pre code { 
+      font-size: 0.85em; 
+      background: #2d3748;
+      border-radius: 8px;
+      padding: 1rem;
+      line-height: 1.4;
+    }
+    
+    .footer { 
+      position: absolute; 
+      left: 0; 
+      right: 0; 
+      bottom: 10px; 
+      font-size: 14px; 
+      color: #a3a3a3; 
+      text-align: center; 
+    }
+    
+    .reveal section {
+      padding: 1rem;
+    }
+    
+    .author-info {
+      background: rgba(79, 209, 197, 0.1);
+      border-left: 4px solid var(--brand);
+      padding: 0.8rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+    }
+    
+    .section-divider {
+      width: 60%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--brand), transparent);
+      margin: 1rem auto;
+      border: none;
+    }
+    
+    .highlight-box {
+      background: rgba(14, 165, 165, 0.15);
+      border-left: 4px solid var(--accent);
+      padding: 1rem;
+      margin: 0.5rem 0;
+      border-radius: 8px;
+    }
+    
+    .center-content {
+      text-align: center;
+    }
+    
+    .code-block {
+      background: #2d3748;
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 0.5rem 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    
+    .code-block h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1em;
+    }
   </style>
 </head>
 <body>
@@ -24,133 +145,163 @@
     <div class="slides">
 
       <!-- 封面 -->
-      <section data-transition="fade">
+      <section data-transition="fade" class="center-content">
         <h1>AI-driven SOC/NOC Assistant</h1>
         <h3 class="muted">Modular Security Automation Framework</h3>
-        <p>
+        <div style="margin: 1.5rem 0;">
           <span class="tag">Vendor-neutral</span>
           <span class="tag">FastAPI / Flask</span>
           <span class="tag">Bootstrap 5</span>
           <span class="tag">Embeddable UI</span>
-        </p>
-        <hr style="width:50%; margin: 1em auto; opacity:0.3;">
-        <p style="font-size:1.1em; text-align:center;">
-          <strong>報告者</strong><br>
-          113753113 資碩二 吳振群<br>
-          111703037 資訊四 許博崴
-        </p>
+        </div>
+        <hr class="section-divider">
+        <div class="author-info">
+          <p style="margin: 0; text-align: right; color: var(--text-light);">
+            <strong>113753113 資碩二 吳振群</strong><br>
+            <strong>111703037 資訊四 許博崴</strong>
+          </p>
+        </div>
       </section>
 
       <!-- 背景介紹 -->
       <section>
         <h2>Background</h2>
-        <ul>
-          <li>Modern SOC/NOC teams drown in alerts and heterogeneous logs.</li>
-          <li>Commercial tools (e.g., SOAR, vendor suites) can be tightly coupled to specific hardware.</li>
-          <li><strong>Goal:</strong> Deliver a lightweight, software-only assistant that runs at the application layer.</li>
-        </ul>
+        <div class="highlight-box">
+          <ul>
+            <li><strong>Current Challenge:</strong> Modern SOC/NOC teams drown in alerts and heterogeneous logs.</li>
+            <li><strong>Commercial Limitations:</strong> Commercial tools (e.g., SOAR, vendor suites) can be tightly coupled to specific hardware.</li>
+            <li><strong>Our Goal:</strong> Deliver a lightweight, software-only assistant that runs at the application layer.</li>
+          </ul>
+        </div>
       </section>
 
       <!-- 目標 -->
       <section>
         <h2>Objectives</h2>
-        <ol>
-          <li><strong>Modular Assistant (Backend)</strong>: FastAPI module with APIs for log ingestion, incident summarization, playbook generation.</li>
-          <li><strong>Lightweight Frontend</strong>: Bootstrap 5 dashboards + chatbot UI, standalone or embeddable.</li>
-          <li><strong>Threat Intel Integration</strong>: Reputation lookups (VirusTotal, AbuseIPDB) via extendable connectors.</li>
-          <li><strong>Seamless Embedding</strong>: Mountable in Flask, FastAPI, or npm-based apps.</li>
-        </ol>
+        <div class="highlight-box">
+          <ol>
+            <li><strong>Modular Backend:</strong> FastAPI module with APIs for log ingestion, incident summarization, playbook generation.</li>
+            <li><strong>Lightweight Frontend:</strong> Bootstrap 5 dashboards + chatbot UI, standalone or embeddable.</li>
+            <li><strong>Threat Intel Integration:</strong> Reputation lookups (VirusTotal, AbuseIPDB) via extendable connectors.</li>
+            <li><strong>Seamless Embedding:</strong> Mountable in Flask, FastAPI, or npm-based apps.</li>
+          </ol>
+        </div>
       </section>
 
       <!-- 選擇這個主題的原因 -->
       <section>
-        <h2>Why This Topic</h2>
-        <ul>
-          <li><strong>Vendor-neutral</strong> AI automation without proprietary appliances.</li>
-          <li><strong>Bridges AI &amp; Cybersecurity</strong> through NLP summarization for triage.</li>
-          <li><strong>Practical &amp; Deployable</strong>: Works with popular frameworks.</li>
-          <li><strong>Scalable Demonstration</strong>: Python package/npm module for reusability.</li>
-        </ul>
+        <h2>Why This Topic?</h2>
+        <div class="highlight-box">
+          <ul>
+            <li><strong>Vendor-neutral:</strong> AI automation without proprietary appliances.</li>
+            <li><strong>AI & Cybersecurity Bridge:</strong> Through NLP summarization for triage.</li>
+            <li><strong>Practical & Deployable:</strong> Works with popular frameworks.</li>
+            <li><strong>Scalable Demonstration:</strong> Python package/npm module for reusability.</li>
+          </ul>
+        </div>
       </section>
 
       <!-- 架構概覽 -->
       <section>
         <h2>Architecture Overview</h2>
-        <ul>
-          <li><strong>Core API (FastAPI)</strong>: /ingest, /summarize, /playbooks, /intel/*</li>
-          <li><strong>Frontend</strong>: Bootstrap 5 UI (chat + dashboards), embeddable widget.</li>
-          <li><strong>Connector Layer</strong>: VirusTotal, AbuseIPDB, future TI feeds.</li>
-          <li><strong>Packaging</strong>: <code>ai_soc_module</code> (pip) + npm widget.</li>
-        </ul>
+        <div class="highlight-box">
+          <ul>
+            <li><strong>Core API (FastAPI):</strong> /ingest, /summarize, /playbooks, /intel/*</li>
+            <li><strong>Frontend:</strong> Bootstrap 5 UI (chat + dashboards), embeddable widget.</li>
+            <li><strong>Connector Layer:</strong> VirusTotal, AbuseIPDB, future TI feeds.</li>
+            <li><strong>Packaging:</strong> <code>ai_soc_module</code> (pip) + npm widget.</li>
+          </ul>
+        </div>
       </section>
 
       <!-- 嵌入範例 -->
       <section>
         <h2>Embedding Example</h2>
-        <pre><code class="language-python"># FastAPI integration
+        <div class="code-block">
+          <h3 style="color: var(--brand);">Python Integration</h3>
+          <pre><code class="language-python"># FastAPI integration
 from ai_soc_module import SOCAssistant
 from fastapi import FastAPI
 
 app = FastAPI()
 app.include_router(SOCAssistant.router, prefix="/soc")
-</code></pre>
-        <pre><code class="language-html">&lt;!-- Embeddable widget --&gt;
+          </code></pre>
+        </div>
+        <div class="code-block">
+          <h3 style="color: var(--brand);">Frontend Widget</h3>
+          <pre><code class="language-html">&lt;!-- Embeddable widget --&gt;
 &lt;div id="soc-assistant" data-endpoint="/soc"&gt;&lt;/div&gt;
 &lt;script src="/static/soc-widget.js"&gt;&lt;/script&gt;
-</code></pre>
+          </code></pre>
+        </div>
       </section>
 
       <!-- 實際應用場景 -->
       <section>
         <h2>Real-world Scenarios</h2>
-        <ul>
-          <li><strong>Incident Summarization</strong>: condense 100+ alerts into prioritized summaries.</li>
-          <li><strong>Automated Playbooks</strong>: output JSON/YAML templates for remediation.</li>
-          <li><strong>Threat Enrichment</strong>: IP/domain lookups + risk scoring + recommendations.</li>
-          <li><strong>Pluggable Integration</strong>: drop into existing Flask/FastAPI dashboards.</li>
-        </ul>
+        <div class="highlight-box">
+          <ul>
+            <li><strong>Incident Summarization:</strong> Condense 100+ alerts into prioritized summaries.</li>
+            <li><strong>Automated Playbooks:</strong> Output JSON/YAML templates for remediation.</li>
+            <li><strong>Threat Enrichment:</strong> IP/domain lookups + risk scoring + recommendations.</li>
+            <li><strong>Pluggable Integration:</strong> Drop into existing Flask/FastAPI dashboards.</li>
+          </ul>
+        </div>
       </section>
 
       <!-- 深入研究 -->
       <section>
         <h2>Deep-dive for Final Report</h2>
-        <ul>
-          <li>Evaluate summarization accuracy &amp; models.</li>
-          <li>SIEM/SOAR integration standards.</li>
-          <li>Playbook interoperability (Ansible, SOAR).</li>
-          <li>Dockerized deployment, scalability tests.</li>
-          <li>UX comparison: chatbot vs. dashboard.</li>
-        </ul>
+        <div class="highlight-box">
+          <ul>
+            <li><strong>Accuracy Evaluation:</strong> Evaluate summarization accuracy & models.</li>
+            <li><strong>Standards Integration:</strong> SIEM/SOAR integration standards.</li>
+            <li><strong>Playbook Interoperability:</strong> Playbook interoperability (Ansible, SOAR).</li>
+            <li><strong>Containerized Deployment:</strong> Dockerized deployment, scalability tests.</li>
+            <li><strong>UX Comparison:</strong> UX comparison: chatbot vs. dashboard.</li>
+          </ul>
+        </div>
       </section>
 
 
       <!-- 最終交付成果 -->
       <section>
-        <h2>Final Deliverable (Demo)</h2>
-        <ul>
-          <li><code>ai_soc_module/</code> Python package (FastAPI/Flask)</li>
-          <li>Web admin interface (Bootstrap 5), embeddable</li>
-          <li>Integration examples (Flask, FastAPI, npm frontend)</li>
-          <li>Documentation: install, API, integrations</li>
-          <li>Live flow: Ingest ➜ AI Summarize ➜ Playbook ➜ Dashboard</li>
-        </ul>
+        <h2>Final Deliverable</h2>
+        <div class="highlight-box">
+          <ul>
+            <li><strong>Python Package:</strong> <code>ai_soc_module/</code> (FastAPI/Flask)</li>
+            <li><strong>Web Admin Interface:</strong> Bootstrap 5, embeddable</li>
+            <li><strong>Integration Examples:</strong> Flask, FastAPI, npm frontend</li>
+            <li><strong>Complete Documentation:</strong> Install, API, integrations</li>
+            <li><strong>Live Flow:</strong> Ingest ➜ AI Summarize ➜ Playbook ➜ Dashboard</li>
+          </ul>
+        </div>
       </section>
 
       <!-- 影響力 -->
       <section>
-        <h2>Impact</h2>
-        <ul>
-          <li>Reduce response time via automated triage</li>
-          <li>Augment junior analysts with AI recommendations</li>
-          <li>Lower cost vs. appliance-heavy stacks</li>
-          <li>Flexible across Flask, FastAPI, npm</li>
-        </ul>
+        <h2>Impact & Benefits</h2>
+        <div class="highlight-box">
+          <ul>
+            <li><strong>Reduce Response Time:</strong> Reduce response time via automated triage</li>
+            <li><strong>Enhance Analysis:</strong> Augment junior analysts with AI recommendations</li>
+            <li><strong>Lower Costs:</strong> Lower cost vs. appliance-heavy stacks</li>
+            <li><strong>Flexible Deployment:</strong> Flexible across Flask, FastAPI, npm</li>
+          </ul>
+        </div>
       </section>
 
       <!-- 結語 -->
-      <section>
-        <h2>Thank You</h2>
+      <section class="center-content">
+        <h1>Thank You</h1>
         <p class="muted">AI-driven SOC/NOC Assistant</p>
+        <p class="muted">Modular Security Automation Framework</p>
+        <hr class="section-divider">
+        <div style="margin-top: 1.5rem;">
+          <span class="tag">Questions?</span>
+          <span class="tag">Discussion</span>
+          <span class="tag">Feedback</span>
+        </div>
       </section>
 
     </div>
